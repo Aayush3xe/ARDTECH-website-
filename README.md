@@ -40,9 +40,8 @@ A modern, responsive website for ARD Tech - offering computer repairs, software 
 
 ## Getting Started
 
-1. Clone the repository
-2. Open `index.html` in your browser
-3. For the chatbot to function with order redirects, ensure both `index.html` and `archie.html` are in the same folder
+1. VISIT ARDTEXH.PAGES.GD 
+
 
 ## File Structure
 
