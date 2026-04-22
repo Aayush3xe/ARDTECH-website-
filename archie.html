@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meet Archie - ARD Tech's AI Assistant</title>
+    <link rel="icon" type="image/png" href="ARDTech.png">
+    <link rel="stylesheet" href="./style.css">
+    <style>
+        body {
+            padding-top: 140px;
+        }
+        .archie-hero {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #0a0e14 0%, #1a1a2e 100%);
+        }
+        .archie-avatar {
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle, rgba(0, 166, 226, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            box-shadow: 0 0 60px rgba(0, 166, 226, 0.4);
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .archie-hero h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #fff 0%, #00a6e2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .archie-hero p {
+            font-size: 20px;
+            color: #b0bec5;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .features-section {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .features-section h2 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 50px;
+        }
+        .archie-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .archie-feature {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            text-align: center;
+            transition: var(--transition);
+        }
+        .archie-feature:hover {
+            border-color: #00a6e2;
+            transform: translateY(-5px);
+        }
+        .archie-feature-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        .archie-feature h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: #00a6e2;
+        }
+        .archie-preview {
+            padding: 40px 0;
+            background: var(--bg-secondary);
+            text-align: center;
+            min-height: calc(100vh - 300px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .archie-preview h2 {
+            font-size: 36px;
+            margin-bottom: 30px;
+            padding: 0 20px;
+        }
+        .chat-preview {
+            width: 100%;
+            max-width: 600px;
+            height: 70vh;
+            max-height: 600px;
+            min-height: 400px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border: 2px solid #00a6e2;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0, 166, 226, 0.3);
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-preview-header {
+            background: linear-gradient(135deg, #00a6e2 0%, #0090c4 100%);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+        .chat-preview-avatar {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .chat-preview-info h4 {
+            color: white;
+            font-size: 16px;
+        }
+        .chat-preview-info span {
+            color: rgba(255,255,255,0.8);
+            font-size: 12px;
+        }
+        .mini-robot {
+            width: 30px;
+            height: 30px;
+        }
+        .mini-robot-body {
+            width: 30px;
+            height: 22px;
+            background: #00a6e2;
+            border-radius: 8px 8px 10px 10px;
+            position: relative;
+        }
+        .mini-robot-face {
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 18px;
+            height: 10px;
+            background: #0a0e14;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .mini-robot-eye {
+            width: 6px;
+            height: 6px;
+            background: #00ff88;
+            border-radius: 50%;
+            animation: blink 3s infinite;
+        }
+        @keyframes blink {
+            0%, 90%, 100% { opacity: 1; }
+            95% { opacity: 0; }
+        }
+        .chat-preview-messages {
+            padding: 20px;
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        .preview-bot-msg {
+            background: var(--bg-input);
+            padding: 15px 18px;
+            border-radius: 18px 18px 18px 5px;
+            margin-bottom: 15px;
+            font-size: 15px;
+            line-height: 1.5;
+            text-align: left;
+        }
+        .preview-user-msg {
+            background: #00a6e2;
+            color: white;
+            padding: 15px 18px;
+            border-radius: 18px 18px 5px 18px;
+            margin-bottom: 15px;
+            margin-left: 20px;
+            font-size: 15px;
+            line-height: 1.5;
+            text-align: left;
+        }
+        .preview-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .preview-option {
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            padding: 14px 18px;
+            border-radius: 12px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: left;
+        }
+        .preview-option:hover {
+            border-color: #00a6e2;
+            background: rgba(0, 166, 226, 0.1);
+        }
+        
+        /* Tablet Responsive */
+        @media (max-width: 992px) and (min-width: 769px) {
+            .mobile-menu-btn {
+                display: flex;
+            }
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: var(--bg-secondary);
+                flex-direction: column;
+                padding: 24px;
+                gap: 20px;
+                border-bottom: 1px solid var(--border-color);
+                display: none;
+                z-index: 999;
+            }
+            .nav-links.active {
+                display: flex;
+            }
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: flex;
+            }
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: var(--bg-secondary);
+                flex-direction: column;
+                padding: 24px;
+                gap: 20px;
+                border-bottom: 1px solid var(--border-color);
+                display: none;
+                z-index: 999;
+            }
+            .nav-links.active {
+                display: flex;
+            }
+            .archie-preview {
+                padding: 30px 0;
+                min-height: auto;
+            }
+            .archie-preview h2 {
+                font-size: 28px;
+            }
+            .chat-preview {
+                max-width: 100%;
+                height: 60vh;
+                max-height: none;
+                min-height: 350px;
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+            }
+            .chat-preview-messages {
+                padding: 15px;
+            }
+            .preview-bot-msg,
+            .preview-user-msg {
+                font-size: 14px;
+                padding: 12px 14px;
+            }
+            .preview-option {
+                font-size: 14px;
+                padding: 12px 14px;
+            }
+        }
+        
+        .cta-section {
+            padding: 80px 20px;
+            text-align: center;
+        }
+        .cta-section h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        .cta-section p {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            font-size: 18px;
+        }
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 40px;
+            background: linear-gradient(135deg, #00a6e2 0%, #0090c4 100%);
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 30px;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        .cta-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(0, 166, 226, 0.5);
+        }
+    </style>
+</head>
+<body class="dark">
+    <!-- Rocket Scroll Indicator -->
+    
+    
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo"><img src="ARDTech.png" alt="ARD Tech Logo" height="80"></a>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-links" id="navLinks">
+                <a href="index.html">Home</a>
+                <a href="index.html#services">Services</a>
+                <a href="index.html#pricing">Pricing</a>
+                <a href="index.html#testimonials">Reviews</a>
+                <a href="archie.html" class="archie-link">🤖 Meet Archie</a>
+                <a href="index.html#faq">FAQ</a>
+                <a href="index.html#contact">Contact</a>
+                <a href="terms.html">Terms</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="archie-hero">
+        <div class="archie-avatar">
+            <div class="robot-container" style="transform: scale(1.3);">
+                <div class="robot-body">
+                    <div class="robot-face">
+                        <div class="robot-eye left"></div>
+                        <div class="robot-eye right"></div>
+                        <div class="robot-mouth"></div>
+                    </div>
+                    <div class="robot-antenna">
+                        <div class="antenna-ball"></div>
+                    </div>
+                </div>
+                <div class="robot-shadow"></div>
+            </div>
+        </div>
+        <h1>Meet Archie</h1>
+        <p>Your friendly tech support assistant! Archie helps with computer issues, software problems, and is always here to chat! 💻✨</p>
+    </section>
+
+    <section class="features-section">
+        <h2>What Archie Can Do</h2>
+        <div class="archie-features">
+            <div class="archie-feature">
+                <div class="archie-feature-icon">💻</div>
+                <h3>Tech Support</h3>
+                <p>WiFi issues? Computer slow? Can't print? Archie can walk you through troubleshooting steps to fix common computer problems.</p>
+            </div>
+            <div class="archie-feature">
+                <div class="archie-feature-icon">🛒</div>
+                <h3>Order Services</h3>
+                <p>Want to buy Windows, Office, or need a website? Archie can help you place an order and connect you with our team.</p>
+            </div>
+            <div class="archie-feature">
+                <div class="archie-feature-icon">📋</div>
+                <h3>Check Guarantees</h3>
+                <p>Had a service done? Archie can help you check if your 30-day guarantee is still valid - just enter your purchase date!</p>
+            </div>
+            <div class="archie-feature">
+                <div class="archie-feature-icon">💡</div>
+                <h3>Answer Questions</h3>
+                <p>Not sure what you need? Archie can explain our services, pricing, and help you find the right solution.</p>
+            </div>
+            <div class="archie-feature">
+                <div class="archie-feature-icon">📸</div>
+                <h3>View Screenshots</h3>
+                <p>Having an issue? Take a screenshot and Archie can help diagnose the problem or connect you with our team.</p>
+            </div>
+            <div class="archie-feature">
+                <div class="archie-feature-icon">🌐</div>
+                <h3>For Everyone</h3>
+                <p>You don't need to be a customer! Archie helps anyone with computer questions - completely free!</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="archie-preview" id="archie-chat">
+        <h2>Chat with Archie</h2>
+        <div class="chatbot-window" id="embedded-chat" style="display: flex; position: relative; width: 100%; max-width: 600px; height: 70vh; max-height: 600px; margin: 0 auto;">
+            <div class="chatbot-header">
+                <div class="chatbot-header-info">
+                    <img src="ARCHIE.png" alt="Archie" style="width: 40px; height: 40px; border-radius: 50%;">
+                    <div>
+                        <h4>Archie</h4>
+                        <span>We're here to help!</span>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                    <button class="refresh-chat-btn" onclick="showBotMessage('greeting')" title="Refresh Chat" style="background: #00a6e2; border: 2px solid #00a6e2; border-radius: 8px; color: white; cursor: pointer;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <path d="M23 4v6h-6"></path>
+                            <path d="M1 20v-6h6"></path>
+                            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="chatbot-messages" id="chat-messages">
+            </div>
+            <div class="chatbot-input-area">
+                <div class="screenshot-preview" id="screenshot-preview" style="display: none;">
+                    <img id="preview-image" src="" alt="Screenshot preview">
+                    <button class="remove-screenshot" onclick="removeScreenshot()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+                <label class="screenshot-btn" for="screenshot-upload" title="Attach screenshot">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                        <polyline points="21 15 16 10 5 21"></polyline>
+                    </svg>
+                </label>
+                <input type="file" id="screenshot-upload" accept="image/*" style="display: none;" onchange="handleScreenshot(event)">
+                <input type="text" id="chat-input" placeholder="Type your message..." onkeypress="handleChatInput(event)">
+                <button class="chat-send-btn" onclick="sendUserMessage()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img src="ARDTech.png" alt="ARD Tech Logo" height="80" style="margin-bottom: 10px;">
+                    <h3>ARD Tech</h3>
+                    <p>Fast. Reliable. Guaranteed.</p>
+                    <p class="footer-desc">Software installs, hardware repairs, business IT solutions, web hosting and more. Serving individuals and SMEs with a 30-day guarantee.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <a href="index.html">Home</a>
+                    <a href="index.html#services">Services</a>
+                    <a href="index.html#pricing">Pricing</a>
+                    <a href="index.html#testimonials">Reviews</a>
+                    <a href="index.html#faq">FAQ</a>
+                    <a href="terms.html">Terms</a>
+                </div>
+                <div class="footer-contact">
+                    <h4>Talk to Us</h4>
+                    <a href="tel:0653547585">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                        Call: 065 354 7585
+                    </a>
+                    <a href="mailto:support.ardtech@gmail.com">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                        support.ardtech@gmail.com
+                    </a>
+                    <a href="https://wa.me/27653547585" target="_blank">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                        WhatsApp: 065 354 7585
+                    </a>
+                </div>
+                <div class="footer-social">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/ardtechsa?igsh=MWF6eTEzczV0anUyYg==" target="_blank" title="Instagram">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.069-4.85.069-3.204 0-3.584-.012-4.849-.069-3.225-.149-4.771-1.664-4.919-4.919-.058-1.265-.069-1.644-.069-4.849 0-3.204.012-3.584.069-4.849.149-3.226 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-2.966.151-4.786 1.971-4.937 4.937-.059 1.28-.073 1.687-.073 4.946 0 3.259.014 3.668.072 4.947.151 2.967 1.971 4.786 4.937 4.937 1.28.058 1.687.072 4.946.072 3.259 0 3.668-.014 4.947-.072 2.966-.151 4.786-1.971 4.937-4.937.058-1.28.072-1.687.072-4.946 0-3.259-.014-3.667-.072-4.947-.151-2.966-1.971-4.786-4.937-4.937-1.28-.058-1.687-.072-4.946-.072zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                        </a>
+                        <a href="https://www.facebook.com/share/1D17C4QK14/" target="_blank" title="Facebook">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.437H7.078v-3.497h3.047V8.43c0-3.007 1.786-4.667 4.533-4.667 1.312 0 2.686.235 2.686.235v2.972h-1.514c-1.515 0-1.981.943-1.981 1.913v2.477h3.328l-.532 3.497h-2.796v8.437C19.612 23.027 24 17.062 24 12.073z"/></svg>
+                        </a>
+                        <a href="https://maps.app.goo.gl/gcb7cEZTwrRQCu9p8" target="_blank" title="Find us on Google Maps">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c-4 0-8 .5-8 4v2c0 .5-.5 1-1 1H3v8c0 2 2 3 3 3v2c0 1 1 2 2 2h4v-2h10v2h4c1 0 2-1 2-2v-2c1-1 3-1 3-3v-8h-1c-.5 0-1-.5-1-1v-2c0-3.5-4-4-8-4z"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 ARD Tech. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <script>
+        function toggleMobileMenu() {
+            const navLinks = document.getElementById('navLinks');
+            if (navLinks) {
+                navLinks.classList.toggle('active');
+            }
+        }
+        
+        // Navbar background on scroll
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            const navLinks = document.getElementById('navLinks');
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            if (navLinks && menuBtn && !navLinks.contains(e.target) && !menuBtn.contains(e.target)) {
+                navLinks.classList.remove('active');
+            }
+        });
+        
+        // Chatbot functions
+        let uploadedScreenshot = null;
+        const chatbotResponses = {
+            greeting: {
+                message: "Hi there! 👋 I'm Archie, ARD Tech's assistant.\n\n⚠️ NO PAYMENT ON WEBSITE - payment details sent via WhatsApp!\n\n🎉 CURRENT SPECIALS:\n💻 Windows - R300 (R50 OFF!)\n🍎 macOS - R300 (R50 OFF!)\n📝 Office - R300 (R50 OFF!)\n⚡ Valid till 30 April 2026\n\n💡 Type/Select the number of your choice!",
+                options: [
+                    { text: "1. 📋 Services & Pricing", action: "services-pricing" },
+                    { text: "2. 💻 PC & Laptop Repairs", action: "pc-repairs" },
+                    { text: "3. 🔧 Troubleshooting Help", action: "troubleshoot" },
+                    { text: "4. 🛒 Place an Order", action: "purchase" },
+                    { text: "5. 📧 Email Support", action: "email-support" },
+                    { text: "6. ✅ Check Guarantee", action: "guarantee-check" },
+                    { text: "7. 📱 WhatsApp Us", action: "contact-whatsapp" }
+                ]
+            },
+            "services-pricing": {
+                message: "📋 Our Services & Pricing\n\nWhich service would you like to know about?",
+                options: [
+                    { text: "1. Windows Installation - R300", action: "order-windows" },
+                    { text: "2. macOS Installation - R300", action: "order-macos" },
+                    { text: "3. Microsoft Office - R300", action: "order-office" },
+                    { text: "4. Website Development - From R3,000", action: "contact-whatsapp" },
+                    { text: "5. Web Hosting - R150/month", action: "contact-whatsapp" },
+                    { text: "6. Email Hosting - R150/month", action: "contact-whatsapp" },
+                    { text: "7. Domain Registration - R200/year", action: "contact-whatsapp" },
+                    { text: "8. Hardware Repair", action: "pc-repairs" },
+                    { text: "9. Install an App - From R100", action: "contact-whatsapp" },
+                    { text: "10. 🔙 Back to Menu", action: "greeting" }
+                ]
+            },
+            "pc-repairs": {
+                message: "💻 PC & Laptop Repairs\n\nWe fix computers & laptops only. Which issue applies to you?",
+                options: [
+                    { text: "1. Screen Replacement", action: "repair-screen" },
+                    { text: "2. Battery Not Charging", action: "repair-battery" },
+                    { text: "3. Keyboard Not Working", action: "repair-keyboard" },
+                    { text: "4. Slow Performance", action: "repair-slow" },
+                    { text: "5. Virus/Malware Removal", action: "repair-virus" },
+                    { text: "6. Hard Drive Issues", action: "repair-harddrive" },
+                    { text: "7. Overheating/Fan Noise", action: "repair-overheat" },
+                    { text: "8. Won't Turn On", action: "repair-power" },
+                    { text: "9. Other Issue", action: "contact-whatsapp" },
+                    { text: "10. 🔙 Back to Menu", action: "greeting" }
+                ]
+            },
+            "repair-screen": {
+                message: "🖥️ Screen Replacement\n\nWe replace broken, cracked, or malfunctioning laptop and desktop screens.\n\n💰 Pricing depends on screen type - WhatsApp us a photo of your screen for a quote!",
+                options: [
+                    { text: "Get a quote", action: "contact-whatsapp" },
+                    { text: "See other repairs", action: "pc-repairs" }
+                ]
+            },
+            "repair-battery": {
+                message: "🔋 Battery Not Charging\n\nCommon causes:\n• Faulty charging port\n• Damaged charging cable\n• Battery needs replacement\n\nWe'll diagnose and fix the issue!",
+                options: [
+                    { text: "Book a repair", action: "contact-whatsapp" },
+                    { text: "See other repairs", action: "pc-repairs" }
+                ]
+            },
+            "repair-keyboard": {
+                message: "⌨️ Keyboard Not Working\n\nCommon issues:\n• Keys not responding\n• Spilled liquid damage\n• Loose connection\n\nBring it in and we'll fix it!",
+                options: [
+                    { text: "Book a repair", action: "contact-whatsapp" },
+                    { text: "See other repairs", action: "pc-repairs" }
+                ]
+            },
+            "repair-slow": {
+                message: "🐢 Slow Performance\n\nWe can help speed up your computer!\n\nServices include:\n• Full system cleanup\n• Malware removal\n• RAM upgrade\n• SSD installation\n• Windows reinstall",
+                options: [
+                    { text: "I want this!", action: "contact-whatsapp" },
+                    { text: "See other repairs", action: "pc-repairs" }
+                ]
+            },
+            "repair-virus": {
+                message: "🦠 Virus/Malware Removal\n\nWe remove:\n• Viruses & Trojans\n• Spyware & Adware\n• Ransomware\n• Browser hijackers\n\n✅ 30-Day Guarantee on removal\n\nWe'll clean your system safely!",
+                options: [
+                    { text: "Remove my virus", action: "contact-whatsapp" },
+                    { text: "See other repairs", action: "pc-repairs" }
+                ]
+            },
+            "repair-harddrive": {
+                message: "💾 Hard Drive Issues\n\nWe fix:\n• Hard drive not detected\n• Clicking noises\n• Data recovery\n• Drive replacement\n• SSD upgrade",
+                options: [
+                    { text: "Get help", action: "contact-whatsapp" },
+                    { text: "See other repairs", action: "pc-repairs" }
+                ]
+            },
+            "repair-overheat": {
+                message: "🌡️ Overheating/Fan Noise\n\nSolutions:\n• Fan replacement\n• Thermal paste reapplication\n• Dust cleaning\n• Cooling system repair\n\nDon't let overheating damage your PC!",
+                options: [
+                    { text: "Fix my PC", action: "contact-whatsapp" },
+                    { text: "See other repairs", action: "pc-repairs" }
+                ]
+            },
+            "repair-power": {
+                message: "⚡ Won't Turn On\n\nPossible causes:\n• Power supply issue\n• Motherboard fault\n• Charging port damage\n• Internal hardware failure\n\nWe'll diagnose and quote you!",
+                options: [
+                    { text: "Get a diagnosis", action: "contact-whatsapp" },
+                    { text: "See other repairs", action: "pc-repairs" }
+                ]
+            },
+            "email-support": {
+                message: "📧 Email Support:\n\nWe're here to help! Email us at:\nsupport.ardtech@gmail.com\n\nWe typically respond within 24 hours. For faster service, WhatsApp us at 065 354 7585",
+                options: [
+                    { text: "Back to menu", action: "greeting" },
+                    { text: "📱 WhatsApp Us", action: "contact-whatsapp" }
+                ]
+            },
+            purchase: {
+                message: "Great! Let me help you find what you need. What would you like to get?",
+                options: [
+                    { text: "Windows or MacOS", action: "purchase-os" },
+                    { text: "Microsoft Office", action: "purchase-office" },
+                    { text: "Complete Setup (Windows + Office)", action: "purchase-bundle" },
+                    { text: "Website or Hosting", action: "purchase-web" },
+                    { text: "Install an App", action: "buy-app" }
+                ]
+            },
+            "purchase-os": {
+                message: "Windows or macOS installation with lifetime activation!\n\n💻 Windows 11 Pro - R300 (R50 OFF!)\n🍎 macOS / Bootcamp Installation - R300 (R50 OFF!)\n\n✅ 100% Authentic - Runs Locally\n✅ Lifetime Activation\n✅ 30-Day Guarantee\n\n⚡ Limited Time: Valid till 30 April 2026",
+                options: [
+                    { text: "Yes, add Office too!", action: "purchase-bundle" },
+                    { text: "Just Windows please", action: "contact-whatsapp" },
+                    { text: "Tell me more", action: "contact-whatsapp" }
+                ]
+            },
+            "purchase-office": {
+                message: "Microsoft Office with lifetime activation!\n\n📝 Word, Excel, PowerPoint included\n💰 R300 per user (R50 OFF!)\n\n✅ 100% Authentic - Runs Locally\n✅ Lifetime Activation\n✅ 30-Day Guarantee\n\n⚡ Limited Time: Valid till 30 April 2026",
+                options: [
+                    { text: "Yes, add Windows too!", action: "purchase-bundle" },
+                    { text: "Just Office please", action: "contact-whatsapp" },
+                    { text: "Tell me more", action: "contact-whatsapp" }
+                ]
+            },
+            "purchase-bundle": {
+                message: "Complete Setup (Windows + Office) - R700 (R100 OFF when bought together!)\n\n💻 Windows 11 Pro\n📝 Microsoft Office (Word, Excel, PowerPoint)\n✅ Both with lifetime activation\n✅ 30-Day Guarantee\n\n🎉 Special Bundle Deal - Save R100!",
+                options: [
+                    { text: "Yes, I want the bundle!", action: "contact-whatsapp" },
+                    { text: "Tell me more", action: "contact-whatsapp" }
+                ]
+            },
+            "purchase-web": {
+                message: "Websites & Hosting from ARD Tech!\n\n🌐 Landing Pages - From R3,000\n🌐 Business Websites - From R5,000\n🌐 E-commerce Sites - From R10,000\n\n🌍 Web Hosting - R150/month\n📧 Email Hosting - R150/month\n🔤 Domains - R200/year",
+                options: [
+                    { text: "I want a website", action: "contact-whatsapp" },
+                    { text: "I need hosting", action: "contact-whatsapp" }
+                ]
+            },
+            "buy-app": {
+                message: "📱 App Installation\n\nWe can install any software on your device - design tools, accounting software, antivirus, utilities & more.\n\n💰 From R100 per app\n\nI'll connect you with our team on WhatsApp to discuss which app you need installed!",
+                action: "open-whatsapp"
+            },
+            troubleshoot: {
+                message: "I'd be happy to help troubleshoot your issue! What seems to be the problem?",
+                options: [
+                    { text: "Computer is slow", action: "slow-computer" },
+                    { text: "WiFi issues", action: "wifi-issues" },
+                    { text: "Can't print", action: "print-issues" },
+                    { text: "Software not working", action: "software-issues" }
+                ]
+            },
+            "slow-computer": {
+                message: "Here are some quick fixes for a slow computer:\n\n1. Restart your computer\n2. Check for background programs\n3. Clear temporary files\n4. Check for malware\n\n💡 For a free system scan and diagnosis, you can send us a screenshot of your Task Manager (press Ctrl+Shift+Esc)!",
+                options: [
+                    { text: "I need more help", action: "contact-whatsapp" },
+                    { text: "Thanks, that worked!", action: "thanks" }
+                ]
+            },
+            "wifi-issues": {
+                message: "Let's fix your WiFi!\n\n1. Restart your router and computer\n2. Check if other devices can connect\n3. Update your network drivers\n4. Forget and reconnect to the network\n\n💡 Still stuck? We offer remote support - WhatsApp us!",
+                options: [
+                    { text: "I need more help", action: "contact-whatsapp" },
+                    { text: "Thanks, that worked!", action: "thanks" }
+                ]
+            },
+            "print-issues": {
+                message: "Printer troubleshooting:\n\n1. Check printer is turned on and connected\n2. Clear print queue\n3. Reinstall printer driver\n4. Check ink/toner levels\n\n💡 Most common fix: Clear all print jobs and restart both printer and computer!",
+                options: [
+                    { text: "I need more help", action: "contact-whatsapp" },
+                    { text: "Thanks, that worked!", action: "thanks" }
+                ]
+            },
+            "software-issues": {
+                message: "For software issues, could you tell me:\n\n1. What software is having problems?\n2. When did it start?\n3. Any error messages?\n\n💡 Taking a screenshot helps us diagnose faster!",
+                options: [
+                    { text: "Here's my screenshot", action: "take-screenshot" },
+                    { text: "I'll send a screenshot", action: "take-screenshot" },
+                    { text: "I need remote help", action: "contact-whatsapp" }
+                ]
+            },
+            quickhelp: {
+                message: "Sure! Let me share our current specials first:\n\n🎉 CURRENT SPECIALS:\n💻 Windows - R300 (R50 OFF!)\n🍎 macOS - R300 (R50 OFF!)\n📝 Office - R300 (R50 OFF!)\n⚡ Valid till 30 April 2026\n\nWhat would you like to know about?",
+                options: [
+                    { text: "What services do you offer?", action: "services-info" },
+                    { text: "How does pricing work?", action: "pricing-info" },
+                    { text: "Check my 30-day guarantee", action: "guarantee-check" },
+                    { text: "Where are you located?", action: "location-info" },
+                    { text: "I have a specific question", action: "contact-whatsapp" }
+                ]
+            },
+            "services-info": {
+                message: "🛠️ ARD Tech Services:\n\n💻 Software Installation (Windows, Mac, Office)\n🔧 Hardware Repairs\n🌐 Website Development\n📧 Email & Hosting\n🔤 Domain Registration\n💼 Business IT Solutions\n\n🎉 CURRENT SPECIALS:\n💻 Windows, macOS & Office - R50 OFF each!\n⚡ Valid till 30 April 2026\n\nEverything comes with a 30-day guarantee!",
+                options: [
+                    { text: "I want to buy something", action: "purchase" },
+                    { text: "I have a problem", action: "troubleshoot" }
+                ]
+            },
+            "pricing-info": {
+                message: "💰 Our Pricing:\n\n💻 Windows - R300 (R50 OFF! Was R350)\n🍎 macOS - R300 (R50 OFF! Was R350)\n📝 Microsoft Office - R300 (R50 OFF! Was R350)\n🌐 Websites - From R3,000\n🌍 Web Hosting - R150/month\n📧 Email Hosting - R150/month\n🔤 Domain Registration - R200/year\n\n⚡ Limited Offer: R50 OFF on Windows, macOS & Office!\nValid till 30 April 2026",
+                options: [
+                    { text: "I want to order", action: "purchase" },
+                    { text: "Talk to a person", action: "contact-whatsapp" }
+                ]
+            },
+            "location-info": {
+                message: "📍 We're based in South Africa and serve clients nationwide!\n\n💬 WhatsApp us for directions:\n👉 065 354 7585\n\nWe offer remote support across South Africa, and can assist you wherever you are!",
+                options: [
+                    { text: "WhatsApp you", action: "contact-whatsapp" },
+                    { text: "Back to menu", action: "greeting" }
+                ]
+            },
+            "guarantee-check": {
+                message: "🔍 Let me help you check your 30-day guarantee!\n\nPlease enter your invoice date in the format: DD.MM.YYYY\n\nFor example: 17.04.2026",
+                input: true,
+                inputType: "text",
+                inputPlaceholder: "DD.MM.YYYY (e.g. 17.04.2026)",
+                inputAction: "calculate-guarantee"
+            },
+            "contact-whatsapp": {
+                message: "📱 Perfect choice! We're ready to help you on WhatsApp!",
+                options: [
+                    { text: "Open WhatsApp", action: "open-whatsapp" },
+                    { text: "Back to menu", action: "greeting" }
+                ]
+            },
+            thanks: {
+                message: "You're welcome! 😊 Is there anything else I can help you with today?",
+                options: [
+                    { text: "Yes, I need more help", action: "greeting" },
+                    { text: "No thanks", action: "close-chat" }
+                ]
+            },
+            "close-chat": {
+                message: "Thanks for chatting with me! 😊 Come back anytime you need help!\n\n👋 Welcome to return anytime!",
+                action: "close-chat"
+            }
+        };
+
+        let lastSelectedService = '';
+
+        function showBotMessage(key) {
+            const response = chatbotResponses[key];
+            if (!response) return;
+            
+            const messagesContainer = document.getElementById('chat-messages');
+            
+            if (response.action && response.action.startsWith('order-')) {
+                const msgDiv = document.createElement('div');
+                msgDiv.className = 'chat-message bot-message';
+                msgDiv.innerHTML = '<p>' + response.message.replace(/\n/g, '<br>') + '</p>';
+                messagesContainer.appendChild(msgDiv);
+                
+                setTimeout(() => {
+                    let service = 'Service';
+                    let price = 'Price';
+                    if (response.action === 'order-windows') {
+                        service = 'Windows Installation';
+                        price = 'R300 per device (R50 OFF!)';
+                    } else if (response.action === 'order-macos') {
+                        service = 'macOS / Bootcamp Installation';
+                        price = 'R300 per device (R50 OFF!)';
+                    } else if (response.action === 'order-office') {
+                        service = 'Microsoft Office Installation';
+                        price = 'R300 per user (R50 OFF!)';
+                    } else if (response.action === 'order-bundle') {
+                        service = 'Complete Setup (Windows + Office)';
+                        price = 'R600 (R50 OFF!)';
+                    }
+                    window.location.href = 'index.html?order=' + encodeURIComponent(service) + '&price=' + encodeURIComponent(price);
+                }, 500);
+                
+                messagesContainer.scrollTop = 0;
+                return;
+            }
+            
+            if (response.action === 'open-whatsapp') {
+                const msgDiv = document.createElement('div');
+                msgDiv.className = 'chat-message bot-message';
+                msgDiv.innerHTML = '<p>' + response.message.replace(/\n/g, '<br>') + '</p>';
+                messagesContainer.appendChild(msgDiv);
+                
+                setTimeout(() => {
+                    let whatsappUrl = 'https://wa.me/27653547585?text=';
+                    let text = 'Hi ARD Tech! ';
+                    if (lastSelectedService) {
+                        text += lastSelectedService + ' ';
+                    } else {
+                        text += 'I need some help. ';
+                    }
+                    text += 'I spoke with your chat assistant.';
+                    whatsappUrl += encodeURIComponent(text);
+                    window.open(whatsappUrl, '_blank');
+                }, 500);
+                
+                messagesContainer.scrollTop = 0;
+                return;
+            }
+            
+            if (response.action === 'close-chat') {
+                const msgDiv = document.createElement('div');
+                msgDiv.className = 'chat-message bot-message';
+                msgDiv.innerHTML = '<p>' + response.message.replace(/\n/g, '<br>') + '</p>';
+                messagesContainer.appendChild(msgDiv);
+                messagesContainer.scrollTop = 0;
+                setTimeout(closeChatbot, 3000);
+                return;
+            }
+
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'chat-message bot-message';
+            msgDiv.innerHTML = '<p>' + response.message.replace(/\n/g, '<br>') + '</p>';
+            messagesContainer.appendChild(msgDiv);
+
+            if (response.input) {
+                const inputDiv = document.createElement('div');
+                inputDiv.className = 'chat-input-area';
+                inputDiv.innerHTML = '<input type="text" id="guarantee-date-input" placeholder="DD.MM.YYYY" style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #333; background: #1a1a2e; color: white; margin-right: 8px;"><button class="chat-send-btn" onclick="calculateGuarantee()">Check</button>';
+                messagesContainer.appendChild(inputDiv);
+            }
+
+            if (response.options) {
+                const optionsDiv = document.createElement('div');
+                optionsDiv.className = 'chat-options';
+                response.options.forEach((opt, index) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'chat-option-btn';
+                    btn.textContent = opt.text;
+                    btn.onclick = () => {
+                        const userMsg = document.createElement('div');
+                        userMsg.className = 'chat-message user-message';
+                        userMsg.innerHTML = '<p>' + opt.text + '</p>';
+                        messagesContainer.appendChild(userMsg);
+                        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                        lastSelectedService = opt.text;
+                        setTimeout(() => {
+                            showBotMessage(opt.action);
+                            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                        }, 300);
+                    };
+                    optionsDiv.appendChild(btn);
+                });
+                messagesContainer.appendChild(optionsDiv);
+            }
+
+            messagesContainer.scrollTop = 0;
+        }
+
+        function sendUserMessage() {
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim();
+            if (!message) return;
+
+            const messagesContainer = document.getElementById('chat-messages');
+            const userMsg = document.createElement('div');
+            userMsg.className = 'chat-message user-message';
+            userMsg.innerHTML = '<p>' + message + '</p>';
+            messagesContainer.appendChild(userMsg);
+            input.value = '';
+            messagesContainer.scrollTop = 0;
+
+            // Simple auto-response
+            setTimeout(() => {
+                showBotMessage('greeting');
+            }, 500);
+        }
+
+        function handleChatInput(event) {
+            if (event.key === 'Enter') {
+                sendUserMessage();
+            }
+        }
+
+        function handleScreenshot(event) {
+            const file = event.target.files[0];
+            if (file) {
+                uploadedScreenshot = URL.createObjectURL(file);
+                const preview = document.getElementById('screenshot-preview');
+                const img = document.getElementById('preview-image');
+                if (preview && img) {
+                    img.src = uploadedScreenshot;
+                    preview.style.display = 'flex';
+                }
+            }
+        }
+
+        function removeScreenshot() {
+            uploadedScreenshot = null;
+            const preview = document.getElementById('screenshot-preview');
+            if (preview) {
+                preview.style.display = 'none';
+            }
+        }
+
+        function calculateGuarantee() {
+            const input = document.getElementById('guarantee-date-input');
+            if (!input) return;
+            
+            const messagesContainer = document.getElementById('chat-messages');
+            const userMsg = document.createElement('div');
+            userMsg.className = 'chat-message user-message';
+            userMsg.innerHTML = '<p>' + input.value + '</p>';
+            messagesContainer.appendChild(userMsg);
+            
+            const dateStr = input.value;
+            const parts = dateStr.split('.');
+            if (parts.length === 3) {
+                const day = parseInt(parts[0]);
+                const month = parseInt(parts[1]) - 1;
+                const year = parseInt(parts[2]);
+                const purchaseDate = new Date(year, month, day);
+                const today = new Date();
+                const diffTime = Math.abs(today - purchaseDate);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                
+                const remainingDays = 30 - diffDays;
+                
+                setTimeout(() => {
+                    const botMsg = document.createElement('div');
+                    botMsg.className = 'chat-message bot-message';
+                    if (remainingDays > 0) {
+                        botMsg.innerHTML = '<p>✅ Your 30-day guarantee is ACTIVE! You have <strong>' + remainingDays + ' days</strong> remaining. If you have any issues, we\'re here to help!</p>';
+                    } else if (remainingDays === 0) {
+                        botMsg.innerHTML = '<p>⚠️ Your guarantee expires TODAY!Please contact us if you need assistance.</p>';
+                    } else {
+                        botMsg.innerHTML = '<p>❌ Your 30-day guarantee has EXPIRED. For any issues, please contact us via WhatsApp.</p>';
+                    }
+                    messagesContainer.appendChild(botMsg);
+                    messagesContainer.scrollTop = 0;
+                }, 500);
+            } else {
+                setTimeout(() => {
+                    const botMsg = document.createElement('div');
+                    botMsg.className = 'chat-message bot-message';
+                    botMsg.innerHTML = '<p>I couldn\'t read that date. Please enter in format: DD.MM.YYYY<br>For example: 17.04.2026</p>';
+                    messagesContainer.appendChild(botMsg);
+                    messagesContainer.scrollTop = 0;
+                }, 500);
+            }
+        }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            showBotMessage('greeting');
+        });
+        
+        </script>
+</body>
+</html>

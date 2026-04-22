@@ -1,0 +1,190 @@
+{
+    "lastUpdated": "2026-04-19",
+    "offer": {
+        "enabled": true,
+        "discount": 50,
+        "validUntil": "2026-04-30",
+        "services": ["Windows Installation", "macOS / Bootcamp Installation", "Office Install"]
+    },
+    "services": [
+        {
+            "id": "windows",
+            "name": "Windows Installation",
+            "description": "Windows OS installation with lifetime permanent activation",
+            "price": 300,
+            "originalPrice": 350,
+            "unit": "per device",
+            "features": [
+                "100% Authentic - Runs Locally",
+                "Windows 10 & 11 supported",
+                "Lifetime permanent activation",
+                "Bulk discounts from 5 devices",
+                "30-Day Software Guarantee"
+            ]
+        },
+        {
+            "id": "macos",
+            "name": "macOS / Bootcamp Installation",
+            "description": "macOS installation with lifetime permanent activation",
+            "price": 300,
+            "originalPrice": 350,
+            "unit": "per device",
+            "features": [
+                "100% Authentic - Runs Locally",
+                "macOS Monterey & newer",
+                "Lifetime permanent activation",
+                "Boot Camp setup available",
+                "30-Day Software Guarantee"
+            ]
+        },
+        {
+            "id": "office",
+            "name": "Office Install",
+            "description": "Microsoft Office with lifetime permanent activation",
+            "price": 300,
+            "originalPrice": 350,
+            "unit": "per user",
+            "features": [
+                "100% Authentic - Runs Locally",
+                "Lifetime permanent activation",
+                "Word, Excel, PowerPoint included",
+                "Bulk discounts from 5 users",
+                "30-Day Software Guarantee"
+            ]
+        },
+        {
+            "id": "app-install",
+            "name": "App Install",
+            "description": "Any app on request installed and configured",
+            "price": 100,
+            "unit": "per device",
+            "features": [
+                "Any software on request",
+                "Design, accounting, antivirus & more",
+                "Full configuration included",
+                "30-Day Software Guarantee",
+                "Remote or on-site setup"
+            ]
+        },
+        {
+            "id": "ms365-business",
+            "name": "Microsoft 365 for Business",
+            "description": "Full Microsoft 365 Business suite",
+            "price": 150,
+            "unit": "per user / month",
+            "features": [
+                "Office Suite (Word, Excel, PowerPoint)",
+                "Teams, SharePoint, Exchange",
+                "OneDrive cloud storage",
+                "Scalable per-user pricing",
+                "Business email included"
+            ]
+        },
+        {
+            "id": "website-dev",
+            "name": "Website Development",
+            "description": "Custom websites built to suit your needs",
+            "price": 3000,
+            "unit": "from",
+            "features": [
+                "Landing Pages (From R3,000)",
+                "Business Websites (From R5,000)",
+                "E-commerce Sites (From R10,000)",
+                "Mobile responsive design",
+                "SEO optimized & fast loading"
+            ]
+        },
+        {
+            "id": "web-hosting",
+            "name": "Web Hosting",
+            "description": "Reliable web hosting for your basic website",
+            "price": 150,
+            "unit": "per month",
+            "features": [
+                "Annual domain renewal included",
+                "10GB storage",
+                "5 databases",
+                "Virus scanning & spam controls",
+                "Security defense included"
+            ]
+        },
+        {
+            "id": "email-hosting",
+            "name": "Email Hosting",
+            "description": "Professional email hosting with your own domain",
+            "price": 150,
+            "unit": "per month (up to 5)",
+            "features": [
+                "Up to 5 IMAP email addresses",
+                "Your own custom domain",
+                "Spam protection",
+                "Access from any device",
+                "Reliable email delivery"
+            ]
+        },
+        {
+            "id": "domain-reg",
+            "name": "Domain Registration",
+            "description": "Secure your online presence with a custom domain",
+            "price": 200,
+            "unit": "per year",
+            "features": [
+                ".com, .co.za, .org & more",
+                "Annual renewal",
+                "DNS management",
+                "Transfer services",
+                "Privacy protection"
+            ]
+        },
+        {
+            "id": "hardware-repair",
+            "name": "Hardware Repairs",
+            "description": "Laptop, desktop, and peripheral hardware repairs",
+            "price": 0,
+            "unit": "Quote on request",
+            "features": [
+                "Screen replacements",
+                "RAM & storage upgrades",
+                "Power issue diagnostics",
+                "Keyboard replacements",
+                "Motherboard diagnostics"
+            ]
+        },
+        {
+            "id": "business-solutions",
+            "name": "Business Solutions for SMEs",
+            "description": "Tailored IT solutions for small and medium enterprises",
+            "price": 0,
+            "unit": "Quote on request",
+            "features": [
+                "Network setup",
+                "IT infrastructure planning",
+                "Microsoft 365 deployment",
+                "Email & hosting migration",
+                "Ongoing IT support"
+            ]
+        },
+        {
+            "id": "it-support",
+            "name": "General IT Support",
+            "description": "On-demand tech support for individuals and businesses",
+            "price": 0,
+            "unit": "Quote on request",
+            "features": [
+                "Remote assistance",
+                "On-site support",
+                "Troubleshooting & diagnostics",
+                "Software & hardware issues",
+                "Quick response times"
+            ]
+        }
+    ],
+    "guarantee": {
+        "name": "30-Day Software Guarantee",
+        "description": "If your installed software stops working or has activation issues within 30 days, we fix or reinstall at no extra cost."
+    },
+    "contact": {
+        "whatsapp": "+27653547585",
+        "email": "info@ardtech.co.za"
+    }
+}

@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARD TECH Invoice</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        @page {
+            size: A4;
+            margin: 0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .invoice-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .invoice-header {
+            background: linear-gradient(135deg, #0a0e14 0%, #1a2234 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .invoice-header h1 {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 5px;
+            background: linear-gradient(135deg, #ffffff 0%, #00a6e2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .invoice-header p {
+            color: #00a6e2;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .invoice-body {
+            padding: 40px;
+        }
+        
+        .invoice-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .invoice-meta {
+            text-align: left;
+        }
+        
+        .invoice-meta p {
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .invoice-meta strong {
+            color: #00a6e2;
+        }
+        
+        .client-info {
+            text-align: right;
+        }
+        
+        .client-info h3 {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .client-info p {
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+        
+        .divider {
+            height: 2px;
+            background: linear-gradient(90deg, #00a6e2, #00a6e2);
+            margin: 30px 0;
+        }
+        
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        
+        .items-table th {
+            background: #0a0e14;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .items-table th:last-child {
+            text-align: right;
+        }
+        
+        .items-table td {
+            padding: 20px 15px;
+            border-bottom: 1px solid #eee;
+            font-size: 15px;
+        }
+        
+        .items-table td:last-child {
+            text-align: right;
+            font-weight: 600;
+            color: #00a6e2;
+        }
+        
+        .total-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+        }
+        
+        .total-row.grand-total {
+            border-top: 2px solid #00a6e2;
+            margin-top: 15px;
+            padding-top: 20px;
+        }
+        
+        .total-row.grand-total span {
+            font-size: 24px;
+            font-weight: 800;
+            color: #00a6e2;
+        }
+        
+        .payment-section {
+            background: linear-gradient(135deg, #0a0e14 0%, #1a2234 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        
+        .payment-section h3 {
+            color: #00a6e2;
+            margin-bottom: 20px;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .payment-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .payment-item {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .payment-item span:first-child {
+            color: #aaa;
+        }
+        
+        .payment-item span:last-child {
+            font-weight: 600;
+        }
+        
+        .terms-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #fff3cd;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .terms-section h4 {
+            color: #856404;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .terms-section p {
+            font-size: 13px;
+            color: #856404;
+            line-height: 1.6;
+        }
+        
+        .invoice-footer {
+            text-align: center;
+            padding: 30px;
+            background: #f8f9fa;
+            border-top: 1px solid #eee;
+        }
+        
+        .invoice-footer p {
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+        
+        .invoice-footer a {
+            color: #00a6e2;
+            text-decoration: none;
+        }
+        
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-print {
+            background: #0a0e14;
+            color: white;
+        }
+        
+        .btn-print:hover {
+            background: #1a2234;
+            transform: scale(1.02);
+        }
+        
+        .btn-whatsapp {
+            background: #25d366;
+            color: white;
+        }
+        
+        .btn-whatsapp:hover {
+            background: #20bd5a;
+            transform: scale(1.02);
+        }
+        
+        .stamp {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-15deg);
+            font-size: 80px;
+            color: rgba(0, 166, 226, 0.1);
+            font-weight: 900;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .invoice-container {
+                box-shadow: none;
+                border-radius: 0;
+            }
+            
+            .buttons {
+                display: none;
+            }
+            
+            .stamp {
+                display: block;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            body {
+                padding: 0;
+            }
+            
+            .invoice-container {
+                border-radius: 0;
+                box-shadow: none;
+            }
+            
+            .invoice-header {
+                padding: 25px 15px;
+            }
+            
+            .invoice-header h1 {
+                font-size: 28px;
+            }
+            
+            .invoice-header p {
+                font-size: 12px;
+            }
+            
+            .invoice-body {
+                padding: 20px 15px;
+            }
+            
+            .invoice-info {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .invoice-meta {
+                text-align: left;
+            }
+            
+            .client-info {
+                text-align: left;
+            }
+            
+            .items-table th,
+            .items-table td {
+                padding: 12px 10px;
+                font-size: 13px;
+            }
+            
+            .total-section {
+                padding: 20px 15px;
+            }
+            
+            .total-row {
+                font-size: 14px;
+            }
+            
+            .payment-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .payment-box h4 {
+                font-size: 14px;
+            }
+            
+            .payment-box p {
+                font-size: 13px;
+            }
+            
+            .buttons {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+                padding: 14px 20px;
+                font-size: 14px;
+            }
+            
+            .note-section {
+                padding: 15px;
+            }
+            
+            .note-section p {
+                font-size: 13px;
+            }
+            
+            .footer-section {
+                padding: 20px 15px;
+            }
+            
+            .footer-section p {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice-container">
+        <div class="invoice-header">
+            <img src="ARDTech.png" alt="ARD Tech Logo" height="60" style="margin-bottom: 10px;">
+            <h1>ARD TECH</h1>
+            <p>Your Trusted Tech Repair & Solutions Partner</p>
+            <div style="background: #1a1a2e; padding: 10px; border-radius: 8px; margin-top: 15px; text-align: center;">
+                <p style="color: #ff6b6b; font-size: 14px; margin: 0;"><strong>🚫 No Payment on Website</strong></p>
+                <p style="color: #aaa; font-size: 12px; margin: 5px 0 0 0;">All orders processed securely via WhatsApp for your safety</p>
+            </div>
+        </div>
+        
+        <div class="invoice-body">
+            <div class="invoice-info">
+                <div class="invoice-meta">
+                    <p><strong>Invoice #:</strong> <span id="invNumber">ARDTECH-000000</span></p>
+                    <p><strong>Date:</strong> <span id="invDate">--/--/----</span></p>
+                </div>
+                <div class="client-info">
+                    <h3>Bill To</h3>
+                    <p id="clientName">Client Name</p>
+                    <p id="clientEmail">email@example.com</p>
+                    <p id="clientPhone">065 354 7585</p>
+                </div>
+            </div>
+            
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="serviceName">Service Description</td>
+                        <td>
+                            <span id="serviceOriginal" style="text-decoration: line-through; color: #888; margin-right: 8px;"></span>
+                            <span id="servicePrice" style="color: #00ff88; font-weight: bold;">R0</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="total-section">
+                <div class="total-row grand-total">
+                    <span>TOTAL</span>
+                    <span id="totalPrice">R0</span>
+                </div>
+            </div>
+            
+            <div class="payment-section">
+                <h3>💳 Payment Information</h3>
+                <p style="color: white; font-size: 14px; line-height: 1.8;">
+                    Banking details and payment information will ONLY be sent via our secured WhatsApp number:<br>
+                    <strong style="color: #00a6e2; font-size: 18px;">065 354 7585</strong>
+                </p>
+                <p style="color: #aaa; font-size: 12px; margin-top: 15px;">
+                    Click the button below to receive your secure payment details via WhatsApp.
+                </p>
+            </div>
+            
+            <div class="terms-section">
+                <h4>⚠️ Important Notice</h4>
+                <p>By proceeding with this payment, you agree to our Terms and Conditions. Software installations come with a 30-day guarantee. For queries, contact us at support.ardtech@gmail.com or 065 354 7585.</p>
+                <p style="margin-top: 10px; color: #00a6e2;"><strong>Guarantee: 30 days from invoice date</strong></p>
+            </div>
+            
+            <div class="invoice-footer">
+                <p><strong>ARD Tech</strong> - Your Trusted Tech Repair & Solutions Partner</p>
+                <p>📧 support.ardtech@gmail.com | 📱 065 354 7585</p>
+                <p>🌐 ardtech.page.gd</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="payment-notice">
+        <p><strong>Important:</strong> After making payment, please save this invoice as PDF and send both the invoice and proof of payment via WhatsApp to 065 354 7585.</p>
+    </div>
+    
+    <div class="buttons">
+        <button class="btn btn-print" onclick="window.print()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                <rect x="6" y="14" width="12" height="8"></rect>
+            </svg>
+            Save as PDF / Print
+        </button>
+        <button class="btn btn-whatsapp" onclick="sendToWhatsApp()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+            <span id="whatsappBtnText">Send Invoice & Proof via WhatsApp</span>
+        </button>
+    </div>
+    
+    <script>
+        const { jsPDF } = window.jspdf;
+        
+        const params = new URLSearchParams(window.location.search);
+        
+        const invNum = params.get('inv') || 'ARDTECH-000000';
+        const invDate = params.get('date') || new Date().toLocaleDateString('en-ZA');
+        const clientName = params.get('name') || 'Client';
+        const clientEmail = params.get('email') || 'email@example.com';
+        const clientPhone = params.get('phone') || '065 354 7585';
+        const service = params.get('service') || 'Service';
+        const price = params.get('price') || 'R0';
+        const hardware = params.get('hardware') || '';
+        
+        document.getElementById('invNumber').textContent = invNum;
+        document.getElementById('invDate').textContent = invDate;
+        document.getElementById('clientName').textContent = clientName;
+        document.getElementById('clientEmail').textContent = clientEmail;
+        document.getElementById('clientPhone').textContent = clientPhone;
+        document.getElementById('serviceName').textContent = service;
+        
+        // Check for website development with package deal
+        const isWebsite = service.toLowerCase().includes('website');
+        
+        if (isWebsite && price.includes('once-off') && price.includes('R400')) {
+            // Website with package deal - show once-off + monthly
+            // Extract the once-off price from the price string
+            let onceOff = '3,000';
+            if (price.includes('R5,')) {
+                onceOff = '5,000';
+            } else if (price.includes('R10,')) {
+                onceOff = '10,000';
+            }
+            document.getElementById('serviceOriginal').textContent = '';
+            document.getElementById('servicePrice').innerHTML = `Once-off: R${onceOff}<br>+ R400/month service fee`;
+            document.getElementById('totalPrice').textContent = `R${onceOff} once-off + R400/pm`;
+        } else {
+            // Check if service qualifies for discount
+            const discountedServices = ['Windows', 'macOS', 'Office', 'Microsoft Office'];
+            const hasDiscount = discountedServices.some(s => service.includes(s));
+            
+            if (hasDiscount) {
+                document.getElementById('serviceOriginal').textContent = 'R350';
+                document.getElementById('servicePrice').textContent = 'R300';
+                document.getElementById('totalPrice').textContent = 'R300';
+            } else {
+                document.getElementById('serviceOriginal').textContent = '';
+                document.getElementById('servicePrice').textContent = price;
+                document.getElementById('totalPrice').textContent = price;
+            }
+        }
+        
+        // Calculate guarantee expiry date (30 days from invoice date)
+        const parts = invDate.split('/');
+        const day = parseInt(parts[0]);
+        const month = parseInt(parts[1]) - 1;
+        const year = parseInt(parts[2]);
+        const expiryDate = new Date(year, month, day + 30);
+        const expiryDay = String(expiryDate.getDate()).padStart(2, '0');
+        const expiryMonth = String(expiryDate.getMonth() + 1).padStart(2, '0');
+        const expiryYear = expiryDate.getFullYear();
+        document.getElementById('guaranteeExpiry').textContent = expiryDay + '/' + expiryMonth + '/' + expiryYear;
+        
+        function generatePDF() {
+            const doc = new jsPDF();
+            
+            doc.setFillColor(10, 14, 20);
+            doc.rect(0, 0, 210, 60, 'F');
+            
+            doc.setTextColor(0, 166, 226);
+            doc.setFontSize(28);
+            doc.setFont('helvetica', 'bold');
+            doc.text('ARD TECH', 105, 25, { align: 'center' });
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            doc.text('Your Trusted Tech Repair & Solutions Partner', 105, 35, { align: 'center' });
+            doc.text('support@ardtech@gmail.com | 065 354 7585', 105, 45, { align: 'center' });
+            doc.text('ardtech.page.gd', 105, 52, { align: 'center' });
+            
+            doc.setTextColor(0, 0, 0);
+            doc.setFontSize(16);
+            doc.setFont('helvetica', 'bold');
+            doc.text('INVOICE', 20, 75);
+            
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            doc.text('Invoice #: ' + invNum, 20, 85);
+            doc.text('Date: ' + invDate, 20, 92);
+            
+            doc.setFontSize(12);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Bill To:', 120, 85);
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            doc.text(clientName, 120, 92);
+            doc.text(clientEmail, 120, 99);
+            doc.text(clientPhone, 120, 106);
+            
+            const discountedServices = ['Windows', 'macOS', 'Office', 'Microsoft Office'];
+            const hasDiscount = discountedServices.some(s => service.includes(s));
+            const finalPrice = hasDiscount ? 'R300' : price;
+            const originalPrice = hasDiscount ? 'R350' : price;
+            
+            doc.setFillColor(240, 240, 240);
+            doc.rect(20, 115, 170, 10, 'F');
+            doc.setTextColor(0, 0, 0);
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Service', 25, 122);
+            doc.text('Price', 175, 122, { align: 'right' });
+            
+            doc.setFont('helvetica', 'normal');
+            doc.text(service, 25, 135);
+            if (hasDiscount) {
+                doc.setTextColor(150, 150, 150);
+                doc.text(originalPrice, 175, 135, { align: 'right' });
+                doc.setTextColor(0, 180, 0);
+                doc.text(finalPrice, 175, 135, { align: 'right' });
+            } else {
+                doc.setTextColor(0, 0, 0);
+                doc.text(price, 175, 135, { align: 'right' });
+            }
+            
+            doc.setDrawColor(200, 200, 200);
+            doc.line(20, 140, 190, 140);
+            
+            doc.setFillColor(10, 14, 20);
+            doc.rect(130, 145, 60, 18, 'F');
+            doc.setTextColor(0, 166, 226);
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'bold');
+            doc.text('TOTAL', 135, 154);
+            doc.setFontSize(14);
+            doc.text(finalPrice, 185, 158, { align: 'right' });
+            
+            doc.setTextColor(0, 0, 0);
+            doc.setFontSize(12);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Payment Information', 20, 178);
+            
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            doc.text('Banking details and payment information will ONLY be sent via our secured WhatsApp number:', 20, 188);
+            
+            doc.setTextColor(0, 166, 226);
+            doc.setFontSize(14);
+            doc.setFont('helvetica', 'bold');
+            doc.text('065 354 7585', 20, 198);
+            
+            doc.setTextColor(0, 0, 0);
+            doc.setFontSize(9);
+            doc.setFont('helvetica', 'italic');
+            doc.text('Click the button below to receive your secure payment details via WhatsApp.', 20, 208);
+            
+            // Calculate guarantee expiry date
+            const p = invDate.split('/');
+            const expiryDate2 = new Date(parseInt(p[2]), parseInt(p[1]) - 1, parseInt(p[0]) + 30);
+            const expiryStr = String(expiryDate2.getDate()).padStart(2, '0') + '/' + String(expiryDate2.getMonth() + 1).padStart(2, '0') + '/' + expiryDate2.getFullYear();
+            
+            doc.setFillColor(255, 243, 205);
+            doc.rect(20, 215, 170, 30, 'F');
+            doc.setTextColor(133, 100, 4);
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Important Notice', 25, 224);
+            doc.setFontSize(9);
+            doc.setFont('helvetica', 'normal');
+            doc.text('By proceeding with this payment, you agree to our Terms and Conditions.', 25, 232);
+            doc.text('Software installations come with a 30-day guarantee.', 25, 238);
+            doc.setFont('helvetica', 'bold');
+            doc.setTextColor(0, 0, 0);
+            doc.text('Guarantee: 30 days from invoice date', 25, 244);
+            
+            doc.setTextColor(100, 100, 100);
+            doc.setFontSize(8);
+            doc.text('ARD Tech - Your Trusted Tech Repair & Solutions Partner', 105, 280, { align: 'center' });
+            doc.text('support@ardtech@gmail.com | 065 354 7585 | ardtech.page.gd', 105, 286, { align: 'center' });
+            
+            return doc;
+        }
+        
+        async function sendToWhatsApp() {
+            const btn = document.getElementById('whatsappBtnText');
+            btn.textContent = 'Generating PDF...';
+            
+            const doc = generatePDF();
+            
+            const pdfBlob = doc.output('blob');
+            const reader = new FileReader();
+            
+            reader.onloadend = function() {
+                const base64 = reader.result.split(',')[1];
+                
+                const discountedServices = ['Windows', 'macOS', 'Office', 'Microsoft Office'];
+                const hasDiscount = discountedServices.some(s => service.includes(s));
+                const finalAmount = hasDiscount ? 'R300 (R50 OFF!)' : price;
+                
+                const whatsappMsg = `Hi ARD Tech! I'd like to proceed with my order.\n\nInvoice: ${invNum}\nService: ${service}\nAmount: ${finalAmount}\nName: ${clientName}\nEmail: ${clientEmail}\nPhone: ${clientPhone}\n\nPlease send me the banking details. After payment, I will send the invoice and proof of payment via WhatsApp.`;
+                
+                const whatsappUrl = 'https://wa.me/27653547585?text=' + encodeURIComponent(whatsappMsg);
+                window.open(whatsappUrl, '_blank');
+                
+                setTimeout(() => {
+                    alert('Invoice PDF downloaded! In WhatsApp, tap the attachment icon and select the invoice PDF from your downloads folder to send as proof of payment.');
+                    
+                    // Redirect to home page after WhatsApp opens
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1000);
+                }, 500);
+                
+                doc.save('Invoice-' + invNum + '.pdf');
+                
+                btn.textContent = 'Send Invoice & Proof via WhatsApp';
+            };
+            
+            reader.readAsDataURL(pdfBlob);
+        }
+    </script>
+</body>
+</html>

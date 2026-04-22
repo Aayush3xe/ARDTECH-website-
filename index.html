@@ -1,0 +1,2191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARD Tech - Your Trusted Tech Repair & Solutions Partner</title>
+    <meta name="description" content="Software installs, hardware repairs, business IT solutions, web hosting and more. Serving individuals and SMEs with a 30-day guarantee.">
+    <meta name="author" content="ARD Tech">
+    <link rel="icon" type="image/png" href="./ARDTech.png">
+    <link rel="apple-touch-icon" href="./ARDTech.png">
+    <meta name="theme-color" content="#0d1117">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Order Modal */
+        .order-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10001;
+            padding: 20px;
+        }
+        .order-modal-content {
+            background: #111827;
+            border: 1px solid #2a3a52;
+            border-radius: 16px;
+            max-width: 450px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease-out;
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .order-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            border-bottom: 1px solid #2a3a52;
+            background: linear-gradient(135deg, #00a6e2 0%, #0090c4 100%);
+            border-radius: 16px 16px 0 0;
+        }
+        .order-modal-header h3 {
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+            margin: 0;
+        }
+        .order-modal-close {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            font-size: 24px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+        .order-modal-close:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        .order-modal-body {
+            padding: 24px;
+        }
+        .order-service-info {
+            background: #0a0e14;
+            border: 1px solid #2a3a52;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .order-service-info h4 {
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0 0 8px 0;
+        }
+        .order-service-info p {
+            color: #00a6e2;
+            font-size: 24px;
+            font-weight: 800;
+            margin: 0;
+        }
+        .order-form-group {
+            margin-bottom: 16px;
+        }
+        .order-form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #b0bec5;
+            margin-bottom: 6px;
+        }
+        .order-form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            background: #0a0e14;
+            border: 1px solid #2a3a52;
+            border-radius: 8px;
+            color: white;
+            font-size: 15px;
+            font-family: inherit;
+        }
+        .order-form-group input:focus {
+            outline: none;
+            border-color: #00a6e2;
+        }
+        .order-form-group input::placeholder {
+            color: #6b7280;
+        }
+        .order-terms-checkbox {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .order-terms-checkbox input {
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            accent-color: #00a6e2;
+        }
+        .order-terms-checkbox label {
+            font-size: 13px;
+            color: #b0bec5;
+            line-height: 1.5;
+        }
+        .order-terms-checkbox a {
+            color: #00a6e2;
+            text-decoration: none;
+        }
+        .order-terms-checkbox a:hover {
+            text-decoration: underline;
+        }
+        .order-submit-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 20px;
+            background: #25d366;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .order-submit-btn:hover {
+            background: #20bd5a;
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body class="dark">
+    <!-- Rocket Scroll Indicator -->
+    
+    
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo"><img src="ARDTech.png" alt="ARD Tech Logo" height="80"></a>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-links" id="navLinks">
+                <a href="#about">About</a>
+                <a href="#services">Services</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#testimonials">Reviews</a>
+                <a href="archie.html" class="archie-link">🤖 Meet Archie</a>
+                <a href="#faq">FAQ</a>
+                <a href="#contact">Contact</a>
+                <a href="terms.html">Terms</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <div class="hero-bg"></div>
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+                    </svg>
+                    30-Day Software Guarantee
+                </div>
+                <h1>Your Trusted Tech Repair & Solutions Partner</h1>
+                <p class="hero-subtitle">Software installs, hardware repairs, business IT solutions, domain hosting - and everything in between. Serving individuals and SMEs with a 30-day software guarantee.</p>
+                <div class="hero-badges">
+                    <span class="badge" style="background: rgba(255, 71, 87, 0.2); border-color: #ff4757; color: #ff4757;">⚠️ No Payment on Website</span>
+                    <span class="badge">99.9% Deliverability Rate</span>
+                    <span class="badge">Trusted by Businesses & Individuals</span>
+                </div>
+                <div class="hero-buttons">
+                    <a href="#services" class="btn btn-primary">View Services</a>
+                    <a href="archie.html" class="btn btn-archie">🤖 Chat with Archie</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="about" id="about">
+            <div class="container">
+                <div class="section-header">
+                    <h2>About ARD Tech</h2>
+                    <p>At ARD Tech, we bring together over 5 years of hands-on technical expertise and a genuine commitment to customer satisfaction. Whether you are an individual needing a quick software fix or an SME looking for comprehensive IT infrastructure support, we have the skills and experience to deliver.</p>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-number">5+</span>
+                        <span class="stat-label">Years Experience</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">30</span>
+                        <span class="stat-label">Day Guarantee</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">99.9%</span>
+                        <span class="stat-label">Deliverability</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">24/7</span>
+                        <span class="stat-label">Support</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="services" id="services">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Our Services</h2>
+                    <p>Fast. Reliable. Guaranteed.</p>
+                </div>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                                <line x1="8" y1="21" x2="16" y2="21"></line>
+                                <line x1="12" y1="17" x2="12" y2="21"></line>
+                            </svg>
+                        </div>
+                        <h3>Windows Installation</h3>
+                        <p>Windows OS installation with lifetime permanent activation. Licensed software guaranteed to run optimally on your device — forever.</p>
+                        <ul class="service-features">
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> 100% Authentic - Runs Locally</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> Windows 10 & 11 supported</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> Lifetime permanent activation</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> Bulk discounts from 5 devices</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> 30-Day Software Guarantee</li>
+                        </ul>
+                        <span class="price-tag"><span style="text-decoration: line-through; color: #666;">R350</span> <span style="color: #00ff88;">R300</span> / device</span>
+                        <p style="color: #ff6b6b; font-size: 11px; margin-top: 5px;">⚡ R50 OFF - Valid till 30 April 2026</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 2a9 9 0 0 0-9 9c0 3.6 2.4 6.6 6 8.4V22l3-2 3 2v-2.6c3.6-1.8 6-4.8 6-8.4a9 9 0 0 0-9-9z"/>
+                            </svg>
+                        </div>
+                        <h3>macOS / Bootcamp Installation</h3>
+                        <p>macOS installation with lifetime permanent activation. Licensed software guaranteed to run optimally on your Mac — forever.</p>
+                        <ul class="service-features">
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> 100% Authentic - Runs Locally</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> macOS Monterey & newer</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> Lifetime permanent activation</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> Boot Camp setup available</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> 30-Day Software Guarantee</li>
+                        </ul>
+                        <span class="price-tag"><span style="text-decoration: line-through; color: #666;">R350</span> <span style="color: #00ff88;">R300</span> / device</span>
+                        <p style="color: #ff6b6b; font-size: 11px; margin-top: 5px;">⚡ R50 OFF - Valid till 30 April 2026</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                            </svg>
+                        </div>
+                        <h3>Office Install</h3>
+                        <p>Microsoft Office with lifetime permanent activation. One payment, yours forever — no subscriptions needed.</p>
+                        <ul class="service-features">
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> 100% Authentic - Runs Locally</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> Lifetime permanent activation</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> Word, Excel, PowerPoint included</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> Bulk discounts from 5 users</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> 30-Day Software Guarantee</li>
+                        </ul>
+                        <span class="price-tag"><span style="text-decoration: line-through; color: #666;">R350</span> <span style="color: #00ff88;">R300</span> / user</span>
+                        <p style="color: #ff6b6b; font-size: 11px; margin-top: 5px;">⚡ R50 OFF - Valid till 30 April 2026</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                        </div>
+                        <h3>Microsoft 365 for Business</h3>
+                        <p>Full Microsoft 365 Business suite with Teams, SharePoint, Exchange, and more. Scalable per-user monthly licensing.</p>
+                        <ul class="service-features">
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> Office Suite (Word, Excel, PowerPoint)</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> Teams, SharePoint, Exchange</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> OneDrive cloud storage</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> Scalable per-user pricing</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> Business email included</li>
+                        </ul>
+                        <span class="price-tag">From R150 / user / month</span>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="2" y1="12" x2="22" y2="12"></line>
+                                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                            </svg>
+                        </div>
+                        <h3>Website Development</h3>
+                        <p>Custom websites built to suit your needs — from simple landing pages to full business websites.</p>
+                        <ul class="service-features">
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> Landing Pages (R3,000)</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> Business Websites (R5,000)</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> E-commerce Sites (R10,000)</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> Mobile responsive design</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> SEO optimized & fast loading</li>
+                        </ul>
+                        <p style="margin-top: 12px; font-size: 13px; color: var(--accent);">📦 Package Deal: R400/month with free hosting & domain!</p>
+                        <span class="price-tag">From R3,000 once-off | R400/pm</span>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                        </div>
+                        <h3>Web Hosting</h3>
+                        <p>Reliable web hosting for your basic website. Includes domain registration and everything you need to get online.</p>
+                        <ul class="service-features">
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> Annual domain renewal included</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> 10GB storage</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> 5 databases</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> Virus scanning & spam controls</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> Security defense included</li>
+                        </ul>
+                        <span class="price-tag">From R150 / mo</span>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                <polyline points="22,6 12,13 2,6"></polyline>
+                            </svg>
+                        </div>
+                        <h3>Email Hosting</h3>
+                        <p>Professional email hosting with your own domain. Up to 5 IMAP email addresses, spam protection, and reliable delivery.</p>
+                        <ul class="service-features">
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> Up to 5 IMAP email addresses</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> Your own custom domain</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> Spam protection</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> Access from any device</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> Reliable email delivery</li>
+                        </ul>
+                        <span class="price-tag">R150 / mo (up to 5)</span>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+                            </svg>
+                        </div>
+                        <h3>Domain Registration</h3>
+                        <p>Secure your online presence with a custom domain name. We handle registration and annual renewals.</p>
+                        <ul class="service-features">
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> .com, .co.za, .org & more</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> Annual renewal</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> DNS management</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> Privacy protection</li>
+                        </ul>
+                        <p style="margin-top: 12px; font-size: 13px; color: var(--accent);">🔄 Transfer services: quoted separately (depends on website/pages)</p>
+                        <span class="price-tag">R200 / year</span>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+                            </svg>
+                        </div>
+                        <h3>Hardware Repairs</h3>
+                        <p>Laptop, desktop, and peripheral hardware diagnostics and repairs. Screen replacements, RAM upgrades, storage, and more.</p>
+                        <ul class="service-features">
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> Screen replacements</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> RAM & storage upgrades</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> Power issue diagnostics</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> Keyboard replacements</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> Motherboard diagnostics</li>
+                        </ul>
+                        <span class="price-tag">Quote on request</span>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                                <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                            </svg>
+                        </div>
+                        <h3>Business Solutions for SMEs</h3>
+                        <p>Tailored IT solutions for small and medium enterprises. Network setup, IT consulting, and infrastructure management.</p>
+                        <ul class="service-features">
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> Network setup</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> IT infrastructure planning</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> Microsoft 365 deployment</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> Email & hosting migration</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> Ongoing IT support</li>
+                        </ul>
+                        <span class="price-tag">Quote on request</span>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="3"></circle>
+                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                            </svg>
+                        </div>
+                        <h3>General IT Support</h3>
+                        <p>On-demand tech support for individuals and businesses. Remote and on-site assistance available for all your IT needs.</p>
+                        <ul class="service-features">
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> Remote assistance</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> On-site support</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> Troubleshooting & diagnostics</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> Software & hardware issues</li>
+                            <li><span class="tick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></span> Quick response times</li>
+                        </ul>
+                        <span class="price-tag">Quote on request</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="pricing" id="pricing">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Pricing</h2>
+                    <p>Transparent pricing with no hidden costs.</p>
+                    <span class="badge" style="background: rgba(255, 71, 87, 0.2); border-color: #ff4757; color: #ff4757; margin-top: 10px;">⚠️ No Payment on Website</span>
+                </div>
+                <div class="pricing-grid">
+                    <div class="pricing-card featured">
+                        <div class="pricing-card-badge">Popular</div>
+                        <h3 class="pricing-card-title">Windows Installation</h3>
+                        <div class="pricing-card-price"><span style="text-decoration: line-through; color: #666; font-size: 14px;">R350</span> <span style="color: #00ff88;">R300</span> <span class="price-unit">/ device</span></div>
+                        <p style="color: #00a6e2; font-size: 12px; margin: 5px 0;">R50 OFF - Limited Time!</p>
+                        <p style="color: #888; font-size: 11px;">Valid till 30 April 2026</p>
+                        <button class="pricing-buy-btn" onclick="openOrderModal('Windows Installation', 'R300 per device (R50 OFF!)')">Buy Now →</button>
+                    </div>
+
+                    <div class="pricing-card featured">
+                        <div class="pricing-card-badge">Popular</div>
+                        <h3 class="pricing-card-title">macOS / Bootcamp Installation</h3>
+                        <div class="pricing-card-price"><span style="text-decoration: line-through; color: #666; font-size: 14px;">R350</span> <span style="color: #00ff88;">R300</span> <span class="price-unit">/ device</span></div>
+                        <p style="color: #00a6e2; font-size: 12px; margin: 5px 0;">R50 OFF - Limited Time!</p>
+                        <p style="color: #888; font-size: 11px;">Valid till 30 April 2026</p>
+                        <button class="pricing-buy-btn" onclick="openOrderModal('macOS / Bootcamp Installation', 'R300 per device (R50 OFF!)')">Buy Now →</button>
+                    </div>
+
+                    <div class="pricing-card featured">
+                        <div class="pricing-card-badge">Popular</div>
+                        <h3 class="pricing-card-title">Office Install</h3>
+                        <div class="pricing-card-price"><span style="text-decoration: line-through; color: #666; font-size: 14px;">R350</span> <span style="color: #00ff88;">R300</span> <span class="price-unit">/ user</span></div>
+                        <p style="color: #00a6e2; font-size: 12px; margin: 5px 0;">R50 OFF - Limited Time!</p>
+                        <p style="color: #888; font-size: 11px;">Valid till 30 April 2026</p>
+                        <button class="pricing-buy-btn" onclick="openOrderModal('Microsoft Office Installation', 'R300 per user (R50 OFF!)')">Buy Now →</button>
+                    </div>
+
+                    <div class="pricing-card">
+                        <h3 class="pricing-card-title">Website Development</h3>
+                        <div class="pricing-card-price">From R3,000 <span class="price-unit">once-off</span></div>
+                        <p class="pricing-card-desc" style="color: var(--text-secondary); font-size: 13px; margin-bottom: 12px;">Landing page, business site, or e-commerce. Custom built to your needs!</p>
+                        <button class="pricing-buy-btn" onclick="openOrderModal('Website Development', 'From R3,000')">Get Quote →</button>
+                    </div>
+
+                    <div class="pricing-card">
+                        <h3 class="pricing-card-title">Microsoft 365 for Business</h3>
+                        <div class="pricing-card-price">From R150 <span class="price-unit">/ user / month</span></div>
+                        <button class="pricing-buy-btn" onclick="openOrderModal('Microsoft 365 for Business', 'From R150 per user/month')">Buy Now →</button>
+                    </div>
+                    
+<div class="pricing-card">
+                        <h3 class="pricing-card-title">Web Hosting</h3>
+                        <div class="pricing-card-price">R150 <span class="price-unit">/ month</span></div>
+                        <button class="pricing-buy-btn" onclick="openOrderModal('Web Hosting', 'R150/month')">Buy Now →</button>
+                    </div>
+
+                    <div class="pricing-card">
+                        <h3 class="pricing-card-title">Email Hosting</h3>
+                        <div class="pricing-card-price">R150 <span class="price-unit">/ month</span></div>
+                        <button class="pricing-buy-btn" onclick="openOrderModal('Email Hosting', 'R150/month for up to 5 emails')">Buy Now →</button>
+                    </div>
+
+                    <div class="pricing-card">
+                        <h3 class="pricing-card-title">Hardware Repairs</h3>
+                        <div class="pricing-card-price">Quote <span class="price-unit">on request</span></div>
+                        <p class="pricing-card-desc" style="color: var(--text-secondary); font-size: 13px; margin-bottom: 12px;">Computer & laptop hardware repairs (screen, battery, keyboard, charging port, etc.).</p>
+                        <button class="pricing-buy-btn" onclick="openOrderModal('Hardware Repairs', 'Quote on request')">Get Quote →</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="testimonials" id="testimonials">
+            <div class="container">
+                <div class="section-header">
+                    <h2>What Our Clients Say</h2>
+                    <p>Trusted by individuals and businesses across the region</p>
+                    <div class="rating-stars">
+                        <span class="stars">★★★★★</span>
+                        <span class="rating-text">5.0 average rating</span>
+                    </div>
+                </div>
+                <div class="testimonials-carousel">
+                    <button class="carousel-arrow left" onclick="scrollTestimonials(-1)">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <path d="M15 18l-6-6 6-6"/>
+                        </svg>
+                    </button>
+                    <div class="testimonials-track" id="testimonialsTrack">
+                        <div class="testimonial-card">
+                            <div class="quote-icon">"</div>
+                            <p class="testimonial-text">Upgraded both my laptops from Windows 10 to Windows 11 Pro and got Office installed on each one. Smooth process, everything works perfectly. Very happy with the service!</p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">AR</div>
+                                <div class="author-info">
+                                    <span class="author-name">Aresh</span>
+                                    <span class="author-role">Home User</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="testimonial-card">
+                            <div class="quote-icon">"</div>
+                            <p class="testimonial-text">Thanks to my son for recommending ARD Tech! Got Windows 11 Pro installed and Office set up - even got a parent discount lol. Great service and very friendly team.</p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">PR</div>
+                                <div class="author-info">
+                                    <span class="author-name">Prenesha</span>
+                                    <span class="author-role">Home User</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="testimonial-card">
+                            <div class="quote-icon">"</div>
+                            <p class="testimonial-text">Brought in my HP laptop for a screen flex cable repair. Fixed within 12 minutes - I couldn't believe how fast it was done. Absolutely brilliant, will be back for sure!</p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">DA</div>
+                                <div class="author-info">
+                                    <span class="author-name">Daniel</span>
+                                    <span class="author-role">HP Laptop User</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="testimonial-card">
+                            <div class="quote-icon">"</div>
+                            <p class="testimonial-text">Got my personal laptop upgraded to Windows 11 Pro and received a complimentary Office installation on top of that. Incredible value and great attention to detail. Highly recommend!</p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">AN</div>
+                                <div class="author-info">
+                                    <span class="author-name">Anushka</span>
+                                    <span class="author-role">Personal Laptop User</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="testimonial-card">
+                            <div class="quote-icon">"</div>
+                            <p class="testimonial-text">Installed Office Pro Plus and it saved my wallet! Service was done remotely in under 20 minutes. So convenient - didn't even have to leave the house. 10/10!</p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">ZI</div>
+                                <div class="author-info">
+                                    <span class="author-name">Zintle</span>
+                                    <span class="author-role">Home User</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="testimonial-card">
+                            <div class="quote-icon">"</div>
+                            <p class="testimonial-text">Thanks to ARD Tech for installing Office on my 18 users. Fast, reliable, and trustworthy. Exactly what a growing business needs. Will definitely be using them again!</p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">LG</div>
+                                <div class="author-info">
+                                    <span class="author-name">LeadgurusKSG</span>
+                                    <span class="author-role">Business Client</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="testimonial-card">
+                            <div class="quote-icon">"</div>
+                            <p class="testimonial-text">Got my Windows and Office installed along with Adobe PDF. Everything set up perfectly and working flawlessly. ARD Tech really knows their stuff - highly recommend for any software needs!</p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">VN</div>
+                                <div class="author-info">
+                                    <span class="author-name">Vernon</span>
+                                    <span class="author-role">Home User</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="testimonial-card">
+                            <div class="quote-icon">"</div>
+                            <p class="testimonial-text">Had Traktor 4 installed on my DJ laptop - works perfectly for my gigs now! Professional service, quick turnaround, and they even helped me set up my audio drivers. Top notch!</p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">YN</div>
+                                <div class="author-info">
+                                    <span class="author-name">Yuvan</span>
+                                    <span class="author-role">DJ</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-arrow right" onclick="scrollTestimonials(1)">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <path d="M9 18l6-6-6-6"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq" id="faq">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Frequently Asked Questions</h2>
+                    <p>Everything you need to know about our services. Still have questions? WhatsApp us directly.</p>
+                </div>
+                <div class="faq-categories">
+                    <div class="faq-category">
+                        <h3>Software & OS</h3>
+                        <div class="faq-item">
+                            <button class="faq-question" onclick="toggleFaq(this)">
+                                <span>Is the Windows and Office activation really lifetime/permanent?</span>
+                                <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Yes. All our Windows and Microsoft Office installations come with lifetime permanent activation - no annual renewals, no subscriptions, no expiry. Pay once and it is yours forever.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" onclick="toggleFaq(this)">
+                                <span>Do you support both Windows and macOS?</span>
+                                <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Absolutely. We install and configure both Windows (all modern versions) and macOS. We also handle driver setup, updates, and post-install configuration on both platforms.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" onclick="toggleFaq(this)">
+                                <span>What is Boot Camp and do you offer it?</span>
+                                <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p><strong>Boot Camp</strong> is a utility that allows you to install Windows alongside macOS on your Mac - so you can dual boot between both operating systems. Yes, we offer Boot Camp setup! This lets you use Windows and Mac apps on the same Mac. Contact us for pricing and setup details.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" onclick="toggleFaq(this)">
+                                <span>What apps can you install on request?</span>
+                                <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>We can install virtually any software - design tools, accounting software, development environments, antivirus, media tools, and more. Simply let us know what you need when requesting a quote.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" onclick="toggleFaq(this)">
+                                <span>What does the 30-day software guarantee cover?</span>
+                                <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>If your installed software stops working or has activation issues within 30 days of installation, we will fix or reinstall it at no extra cost. Your investment is fully protected.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" onclick="toggleFaq(this)">
+                                <span>How does the bulk discount work?</span>
+                                <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Orders of 5 devices or more qualify for a bulk discount on Windows and Office installations. Contact us via WhatsApp or the quote form and we will provide a custom price based on your order size.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="faq-category">
+                        <h3>Hardware & Repairs</h3>
+                        <div class="faq-item">
+                            <button class="faq-question" onclick="toggleFaq(this)">
+                                <span>What types of hardware repairs do you handle?</span>
+                                <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>We repair laptops, desktops, and peripherals - including screen replacements, RAM and storage upgrades, power issues, keyboard replacements, motherboard diagnostics, and more.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" onclick="toggleFaq(this)">
+                                <span>How do I get a repair quote?</span>
+                                <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Simply WhatsApp us or fill in the quote request form on this page. Describe the issue and include your device model. We will assess and provide a quote quickly - most responses within a few hours.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="faq-category">
+                        <h3>Hosting & Domains</h3>
+                        <div class="faq-item">
+                            <button class="faq-question" onclick="toggleFaq(this)">
+                                <span>What is included in the web hosting package?</span>
+                                <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Our web hosting starts from R200 per year and includes annual domain renewal, 10GB storage, 5 databases, virus scanning, spam controls, and security defense - everything you need to run a professional website.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" onclick="toggleFaq(this)">
+                                <span>What is IMAP email hosting?</span>
+                                <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>IMAP email lets you access your business email from any device (phone, laptop, desktop) and keeps all your messages synced. Starting from R50 per email address with your own custom domain.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" onclick="toggleFaq(this)">
+                                <span>Can you register a new domain for my business?</span>
+                                <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Yes. We handle domain registration and renewal for your business. Domain registration is R200/year. Extensions available: .com, .co.za, .org, .net and more.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="faq-category">
+                        <h3>Meet Archie</h3>
+                        <div class="faq-item">
+                            <button class="faq-question" onclick="toggleFaq(this)">
+                                <span>Who is Archie?</span>
+                                <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p><strong>Archie</strong> is our AI-powered chatbot assistant, available 24/7 to help you with quotes, service information, and general questions. Think of Archie as your friendly first-line support who never sleeps!</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" onclick="toggleFaq(this)">
+                                <span>Can Archie help me place an order?</span>
+                                <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Yes! Archie can assist you with starting an order, answering questions about our services, and providing quotes. Once you're ready to pay, Archie will connect you with our team to finalize the order via WhatsApp.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="faq-category">
+                        <h3>Microsoft 365 & Business</h3>
+                        <div class="faq-item">
+                            <button class="faq-question" onclick="toggleFaq(this)">
+                                <span>What is included in Microsoft 365 for Business?</span>
+                                <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Microsoft 365 for Business includes the full Office suite (Word, Excel, PowerPoint), Teams for collaboration, Exchange business email, SharePoint, OneDrive cloud storage, and more - starting from R150 per user per month.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" onclick="toggleFaq(this)">
+                                <span>What IT solutions do you offer for SMEs?</span>
+                                <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>We offer network setup, IT infrastructure planning, Microsoft 365 deployment, email and hosting migration, device management, and ongoing IT support tailored to small and medium businesses.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-cta">
+                    <h3>Still have questions?</h3>
+                    <p>Our team is available on WhatsApp. We respond fast.</p>
+                    <a href="https://wa.me/27653547585" target="_blank" class="btn btn-whatsapp">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                        Chat on WhatsApp
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Us Section -->
+        <section class="contact-section" id="contact">
+            <div class="container">
+                <div class="contact-grid">
+                    <div class="contact-info">
+                        <span class="contact-label">GET IN TOUCH</span>
+                        <h2>Contact Us</h2>
+                        
+                        <div class="whatsapp-links">
+                            <a href="https://wa.me/27653547585?text=Hi%20ARD%20Tech!%20I%20want%20a%20quote%20for%20Windows%20installation." target="_blank" class="whatsapp-link">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="#4ade80"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                                Windows installation quote
+                            </a>
+                            <a href="https://wa.me/27653547585?text=Hi%20ARD%20Tech!%20I%20want%20a%20quote%20for%20Microsoft%20Office." target="_blank" class="whatsapp-link">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="#4ade80"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                                Microsoft Office quote
+                            </a>
+                            <a href="https://wa.me/27653547585?text=Hi%20ARD%20Tech!%20I%20need%20hardware%20repair%20help." target="_blank" class="whatsapp-link">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="#4ade80"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                                Hardware repair quote
+                            </a>
+                            <a href="https://wa.me/27653547585?text=Hi%20ARD%20Tech!%20I%20need%20info%20about%20web%20or%20email%20hosting." target="_blank" class="whatsapp-link">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="#4ade80"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                                Web or email hosting info
+                            </a>
+                            <a href="https://wa.me/27653547585?text=Hi%20ARD%20Tech!%20I%20want%20a%20quote%20for%20Microsoft%20365%20Business." target="_blank" class="whatsapp-link">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="#4ade80"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                                Microsoft 365 for Business quote
+                            </a>
+                        </div>
+
+                        <div class="contact-note">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00a6e2" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="16" x2="12" y2="12"></line>
+                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                            </svg>
+                            <p>For the fastest response, WhatsApp us directly. We typically respond within minutes during business hours.</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-form-card">
+                        <form id="contactForm" onsubmit="submitContactForm(event)">
+                            <div class="form-group">
+                                <label for="contact-name">Your Name</label>
+                                <input type="text" id="contact-name" placeholder="John Smith" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-email">Email Address</label>
+                                <input type="email" id="contact-email" placeholder="example@gmail.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-phone">Phone / WhatsApp</label>
+                                <input type="tel" id="contact-phone" placeholder="065 354 7585" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-service">What do you need?</label>
+                                <select id="contact-service" required>
+                                    <option value="">Select a service...</option>
+                                    <option value="Windows Installation">Windows Installation - R300 (R50 OFF!)</option>
+                                    <option value="macOS / Bootcamp Installation">macOS / Bootcamp Installation - R300 (R50 OFF!)</option>
+                                    <option value="Office Install">Microsoft Office - R300 (R50 OFF!)</option>
+                                    <option value="Website Development">Website Development - From R3,000</option>
+                                    <option value="Web Hosting">Web Hosting - R150/month</option>
+                                    <option value="Email Hosting">Email Hosting - R150/month</option>
+                                    <option value="Domain Registration">Domain Registration - R200/year</option>
+                                    <option value="Hardware Repair">Hardware Repair</option>
+                                    <option value="Microsoft 365">Microsoft 365 Business</option>
+                                    <option value="IT Support">General IT Support</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-message">Your Message</label>
+                                <textarea id="contact-message" rows="4" placeholder="Tell us what you need..." required></textarea>
+                            </div>
+                            <div class="form-checkbox">
+                                <input type="checkbox" id="contact-terms" required>
+                                <label for="contact-terms">I agree to the <a href="terms.html" target="_blank">Terms and Conditions</a>, including the payment and data policies.</label>
+                            </div>
+                            <button type="submit" class="whatsapp-submit-btn">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                                Send via WhatsApp
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="whatsapp-float">
+            <a href="https://wa.me/27653547585" target="_blank" class="whatsapp-btn" title="Chat on WhatsApp">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            </a>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img src="ARDTech.png" alt="ARD Tech Logo" height="80" style="margin-bottom: 10px;">
+                    <h3>ARD Tech</h3>
+                    <p>Fast. Reliable. Guaranteed.</p>
+                    <p class="footer-desc">Software installs, hardware repairs, business IT solutions, web hosting and more. Serving individuals and SMEs with a 30-day guarantee.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <a href="#about">About</a>
+                    <a href="#services">Services</a>
+                    <a href="#pricing">Pricing</a>
+                    <a href="#testimonials">Reviews</a>
+                    <a href="#faq">FAQ</a>
+                    <a href="terms.html">Terms</a>
+                </div>
+                <div class="footer-contact">
+                    <h4>Talk to Us</h4>
+                    <a href="tel:0653547585">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                        Call: 065 354 7585
+                    </a>
+                    <a href="mailto:support.ardtech@gmail.com">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                        support.ardtech@gmail.com
+                    </a>
+                    <a href="https://wa.me/27653547585" target="_blank">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                        WhatsApp: 065 354 7585
+                    </a>
+                </div>
+                <div class="footer-social">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/ardtechsa?igsh=MWF6eTEzczV0anUyYg==" target="_blank" title="Instagram">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.069-4.85.069-3.204 0-3.584-.012-4.849-.069-3.225-.149-4.771-1.664-4.919-4.919-.058-1.265-.069-1.644-.069-4.849 0-3.204.012-3.584.069-4.849.149-3.226 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-2.966.151-4.786 1.971-4.937 4.937-.059 1.28-.073 1.687-.073 4.946 0 3.259.014 3.668.072 4.947.151 2.967 1.971 4.786 4.937 4.937 1.28.058 1.687.072 4.946.072 3.259 0 3.668-.014 4.947-.072 2.966-.151 4.786-1.971 4.937-4.937.058-1.28.072-1.687.072-4.946 0-3.259-.014-3.667-.072-4.947-.151-2.966-1.971-4.786-4.937-4.937-1.28-.058-1.687-.072-4.946-.072zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                        </a>
+                        <a href="https://www.facebook.com/share/1D17C4QK14/" target="_blank" title="Facebook">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.437H7.078v-3.497h3.047V8.43c0-3.007 1.786-4.667 4.533-4.667 1.312 0 2.686.235 2.686.235v2.972h-1.514c-1.515 0-1.981.943-1.981 1.913v2.477h3.328l-.532 3.497h-2.796v8.437C19.612 23.027 24 17.062 24 12.073z"/></svg>
+                        </a>
+                        <a href="https://maps.app.goo.gl/gcb7cEZTwrRQCu9p8" target="_blank" title="Find us on Google Maps">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M12 0c-4.198 0-8 3.403-8 7.602 0 4.198 8 15.398 8 15.398s8-11.199 8-15.398c0-4.199-3.801-7.602-8-7.602zm0 11c-1.654 0-3-1.346-3-3s1.346-3 3-3 3 1.346 3 3-1.346 3-3 3z"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 ARD Tech. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMobileMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+
+        function toggleFaq(btn) {
+            const item = btn.parentElement;
+            const answer = item.querySelector('.faq-answer');
+            const icon = btn.querySelector('.faq-icon');
+            
+            if (item.classList.contains('open')) {
+                item.classList.remove('open');
+                answer.style.maxHeight = '0';
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                item.classList.add('open');
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+                icon.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        function toggleDeviceField() {
+            const service = document.getElementById('service').value;
+            const deviceGroup = document.getElementById('deviceGroup');
+            const needsDevice = ['Windows Installation', 'macOS / Bootcamp Installation', 'Office Install', 'Hardware Repair'].includes(service);
+            deviceGroup.style.display = needsDevice ? 'block' : 'none';
+        }
+
+        function showTerms(e) {
+            e.preventDefault();
+            window.open('terms.html', '_blank');
+        }
+
+        function requestQuote(service, price) {
+            const message = `Hi ARD Tech! I'm interested in your ${service} service (${price}). Can you provide more details?`;
+            const encodedMessage = encodeURIComponent(message);
+            window.open(`https://wa.me/27653547585?text=${encodedMessage}`, '_blank');
+        }
+
+        function submitQuote(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const service = document.getElementById('service').value;
+            const device = document.getElementById('device').value;
+            const message = document.getElementById('message').value;
+            
+            let whatsappMessage = `*New Quote Request - ARD Tech*\n\n`;
+            whatsappMessage += `*Name:* ${name}\n`;
+            whatsappMessage += `*Email:* ${email}\n`;
+            whatsappMessage += `*Phone:* ${phone}\n`;
+            whatsappMessage += `*Service:* ${service}\n`;
+            if (device) {
+                whatsappMessage += `*Device/Model:* ${device}\n`;
+            }
+            whatsappMessage += `*Details:* ${message}`;
+            
+            const encodedMessage = encodeURIComponent(whatsappMessage);
+            window.open(`https://wa.me/27653547585?text=${encodedMessage}`, '_blank');
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                    document.getElementById('navLinks').classList.remove('active');
+                }
+            });
+        });
+
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Chatbot
+        let uploadedScreenshot = null;
+
+        const chatbotResponses = {
+            greeting: {
+                message: "Hi there! 👋 I'm Archie, ARD Tech's assistant.\n\n⚠️ NO PAYMENT ON WEBSITE - payment details sent via WhatsApp!\n\n🎉 CURRENT SPECIALS:\n💻 Windows - R300 (R50 OFF!)\n🍎 macOS - R300 (R50 OFF!)\n📝 Office - R300 (R50 OFF!)\n⚡ Valid till 30 April 2026\n\n💡 Type/Select the number of your choice!",
+                options: [
+                    { text: "1. 📋 Services & Pricing", action: "services-pricing" },
+                    { text: "2. 💻 PC & Laptop Repairs", action: "pc-repairs" },
+                    { text: "3. 🔧 Troubleshooting Help", action: "troubleshoot" },
+                    { text: "4. 🛒 Place an Order", action: "purchase" },
+                    { text: "5. 📧 Email Support", action: "email-support" },
+                    { text: "6. ✅ Check Guarantee", action: "guarantee-check" },
+                    { text: "7. 📱 WhatsApp Us", action: "contact-whatsapp" }
+                ]
+            },
+            "services-pricing": {
+                message: "📋 Our Services & Pricing\n\nWhich service would you like to know about?",
+                options: [
+                    { text: "1. Windows Installation - R300", action: "open-modal-windows" },
+                    { text: "2. macOS Installation - R300", action: "open-modal-macos" },
+                    { text: "3. Microsoft Office - R300", action: "open-modal-office" },
+                    { text: "4. Website Development - From R3,000", action: "purchase-web" },
+                    { text: "5. Web Hosting - R150/month", action: "purchase-hosting" },
+                    { text: "6. Email Hosting - R150/month", action: "purchase-email" },
+                    { text: "7. Domain Registration - R200/year", action: "purchase-domain" },
+                    { text: "8. Hardware Repair", action: "pc-repairs" },
+                    { text: "9. Install an App - From R100", action: "buy-app" },
+                    { text: "10. 🔙 Back to Menu", action: "greeting" }
+                ]
+            },
+            "pc-repairs": {
+                message: "💻 PC & Laptop Repairs\n\nWe fix computers & laptops only. Which issue applies to you?",
+                options: [
+                    { text: "1. Screen Replacement", action: "repair-screen" },
+                    { text: "2. Battery Not Charging", action: "repair-battery" },
+                    { text: "3. Keyboard Not Working", action: "repair-keyboard" },
+                    { text: "4. Slow Performance", action: "repair-slow" },
+                    { text: "5. Virus/Malware Removal", action: "repair-virus" },
+                    { text: "6. Hard Drive Issues", action: "repair-harddrive" },
+                    { text: "7. Overheating/Fan Noise", action: "repair-overheat" },
+                    { text: "8. Won't Turn On", action: "repair-power" },
+                    { text: "9. Other Issue", action: "contact-whatsapp" },
+                    { text: "10. 🔙 Back to Menu", action: "greeting" }
+                ]
+            },
+            "repair-screen": {
+                message: "🖥️ Screen Replacement\n\nWe replace broken, cracked, or malfunctioning laptop and desktop screens.\n\n💰 Pricing depends on screen type - WhatsApp us a photo of your screen for a quote!",
+                options: [
+                    { text: "Get a quote", action: "contact-whatsapp" },
+                    { text: "See other repairs", action: "pc-repairs" }
+                ]
+            },
+            "repair-battery": {
+                message: "🔋 Battery Not Charging\n\nCommon causes:\n• Faulty charging port\n• Damaged charging cable\n• Battery needs replacement\n\nWe'll diagnose and fix the issue!",
+                options: [
+                    { text: "Book a repair", action: "contact-whatsapp" },
+                    { text: "See other repairs", action: "pc-repairs" }
+                ]
+            },
+            "repair-keyboard": {
+                message: "⌨️ Keyboard Not Working\n\nCommon issues:\n• Keys not responding\n• Spilled liquid damage\n• Loose connection\n\nBring it in and we'll fix it!",
+                options: [
+                    { text: "Book a repair", action: "contact-whatsapp" },
+                    { text: "See other repairs", action: "pc-repairs" }
+                ]
+            },
+            "repair-slow": {
+                message: "🐢 Slow Performance\n\nWe can help speed up your computer!\n\nServices include:\n• Full system cleanup\n• Malware removal\n• RAM upgrade\n• SSD installation\n• Windows reinstall",
+                options: [
+                    { text: "I want this!", action: "contact-whatsapp" },
+                    { text: "See other repairs", action: "pc-repairs" }
+                ]
+            },
+            "repair-virus": {
+                message: "🦠 Virus/Malware Removal\n\nWe remove:\n• Viruses & Trojans\n• Spyware & Adware\n• Ransomware\n• Browser hijackers\n\n✅ 30-Day Guarantee on removal\n\nWe'll clean your system safely!",
+                options: [
+                    { text: "Remove my virus", action: "contact-whatsapp" },
+                    { text: "See other repairs", action: "pc-repairs" }
+                ]
+            },
+            "repair-harddrive": {
+                message: "💾 Hard Drive Issues\n\nWe fix:\n• Hard drive not detected\n• Clicking noises\n• Data recovery\n• Drive replacement\n• SSD upgrade",
+                options: [
+                    { text: "Get help", action: "contact-whatsapp" },
+                    { text: "See other repairs", action: "pc-repairs" }
+                ]
+            },
+            "repair-overheat": {
+                message: "🌡️ Overheating/Fan Noise\n\nSolutions:\n• Fan replacement\n• Thermal paste reapplication\n• Dust cleaning\n• Cooling system repair\n\nDon't let overheating damage your PC!",
+                options: [
+                    { text: "Fix my PC", action: "contact-whatsapp" },
+                    { text: "See other repairs", action: "pc-repairs" }
+                ]
+            },
+            "repair-power": {
+                message: "⚡ Won't Turn On\n\nPossible causes:\n• Power supply issue\n• Motherboard fault\n• Charging port damage\n• Internal hardware failure\n\nWe'll diagnose and quote you!",
+                options: [
+                    { text: "Get a diagnosis", action: "contact-whatsapp" },
+                    { text: "See other repairs", action: "pc-repairs" }
+                ]
+            },
+            "email-support": {
+                message: "📧 Email Support:\n\nWe're here to help! Email us at:\nsupport.ardtech@gmail.com\n\nWe typically respond within 24 hours. For faster service, WhatsApp us at 065 354 7585",
+                options: [
+                    { text: "Back to menu", action: "greeting" },
+                    { text: "📱 WhatsApp Us", action: "contact-whatsapp" }
+                ]
+            },
+            "just-browsing": {
+                message: "No problem! 😊 Feel free to browse around.\n\nIf you ever need:\n🔧 Computer help\n💻 Software or Windows/Mac\n🌐 A website\n💰 A good deal\n\nWe're here to help! You can also WhatsApp us anytime at 065 354 7585",
+                options: [
+                    { text: "Actually, I do need help", action: "greeting" },
+                    { text: "Talk to someone on WhatsApp", action: "contact-whatsapp" }
+                ]
+            },
+            purchase: {
+                message: "Great! Let me help you find what you need. What would you like to get?",
+                options: [
+                    { text: "Windows or MacOS", action: "purchase-os" },
+                    { text: "Microsoft Office", action: "purchase-office" },
+                    { text: "Complete Setup (Windows + Office)", action: "purchase-bundle" },
+                    { text: "Website or Hosting", action: "purchase-web" },
+                    { text: "Install an App", action: "buy-app" }
+                ]
+            },
+            "purchase-os": {
+                message: "Operating System Installation\n\nChoose your system below:",
+                options: [
+                    { text: "💻 Windows", action: "purchase-windows" },
+                    { text: "🍎 macOS", action: "purchase-macos" }
+                ]
+            },
+            "purchase-windows": {
+                message: "💻 Windows Installation\n\nWindows 11 Pro - R300 (R50 OFF!)\n\n✅ 100% Authentic\n✅ Lifetime Activation\n✅ 30-Day Guarantee\n\n⚡ Valid till 30 April 2026\n\nWant me to open the order form?",
+                options: [
+                    { text: "Yes, order Windows!", action: "buy-windows" },
+                    { text: "Add Office too!", action: "purchase-bundle" },
+                    { text: "Tell me more", action: "contact-whatsapp" }
+                ]
+            },
+            "purchase-macos": {
+                message: "🍎 macOS Installation\n\nmacOS / Bootcamp - R300 (R50 OFF!)\n\n✅ 100% Authentic\n✅ Lifetime Activation\n✅ 30-Day Guarantee\n\n⚡ Valid till 30 April 2026\n\nWant me to open the order form?",
+                options: [
+                    { text: "Yes, order macOS!", action: "buy-macos" },
+                    { text: "Add Windows too!", action: "purchase-bundle" },
+                    { text: "Tell me more", action: "contact-whatsapp" }
+                ]
+            },
+            "purchase-office": {
+                message: "Microsoft Office with lifetime activation!\n\n📝 Word, Excel, PowerPoint included\n💰 R300 per user (R50 OFF!)\n\n✅ 100% Authentic - Runs Locally\n✅ Lifetime Activation\n✅ 30-Day Guarantee\n\n⚡ Limited Time: Valid till 30 April 2026\n\n💡 Tip: If you're installing Windows fresh, you can get both Windows AND Office together for a complete setup!",
+                options: [
+                    { text: "Yes, add Windows too!", action: "purchase-bundle" },
+                    { text: "Just Office please", action: "purchase-office-only" },
+                    { text: "Tell me more", action: "contact-whatsapp" }
+                ]
+            },
+            "purchase-bundle": {
+                message: "🎉 Complete Setup Deal!\n\nGet Windows + Office together for a fresh, ready-to-use computer!\n\n✅ Windows 11 Pro - R300 (R50 OFF!)\n✅ Microsoft Office - R300 (R50 OFF!)\n✅ 100% Authentic - Runs Locally\n💰 Total: R600\n\n⚡ Limited Time: Valid till 30 April 2026\n\nIncludes lifetime activation and our 30-day guarantee!",
+                options: [
+                    { text: "This sounds perfect!", action: "buy-bundle" },
+                    { text: "How many devices do I need?", action: "bulk-discount" },
+                    { text: "I need more options", action: "purchase" }
+                ]
+            },
+            "bulk-discount": {
+                message: "Yes! We offer discounts for multiple devices:\n\n📊 5+ devices = Bulk Discount!\n\nContact us for a custom quote based on how many devices you need. Perfect for families, offices, or schools!",
+                options: [
+                    { text: "I want to order for 5+ devices", action: "buy-bulk" },
+                    { text: "Let me think about it", action: "greeting" }
+                ]
+            },
+            "purchase-web": {
+                message: "🌐 Website Pricing:\n\n💰 Once-off:\n• Basic - R3,000\n• Standard - R5,000\n• Premium - R10,000\n\n📦 Package Deal - R400/month:\n• Free hosting & domain\n(If you don't already have them)\n\nWhat interests you?",
+                options: [
+                    { text: "I need a new website", action: "buy-web" },
+                    { text: "I need hosting", action: "buy-hosting" },
+                    { text: "Let me browse more", action: "purchase" }
+                ]
+            },
+            "buy-app": {
+                message: "📱 App Installation\n\nWe can install any software on your device - design tools, accounting software, antivirus, utilities & more.\n\n💰 From R100 per app\n\nI'll connect you with our team on WhatsApp to discuss which app you need installed!",
+                action: "open-whatsapp"
+            },
+            "purchase-windows": {
+                message: "Windows 11 Pro - R300 (R50 OFF!)\n\n✅ Lifetime activation\n✅ 30-day guarantee\n✅ Remote installation available\n\n⚡ Limited offer valid till 30 April 2026\n\nWould you like to order now?",
+                options: [
+                    { text: "Yes, order now!", action: "buy-windows" },
+                    { text: "I have questions", action: "contact-whatsapp" }
+                ]
+            },
+            "purchase-office-only": {
+                message: "Microsoft Office - R300 (R50 OFF!)\n\n✅ Lifetime activation\n✅ Word, Excel, PowerPoint\n✅ 30-day guarantee\n\n⚡ Limited offer valid till 30 April 2026\n\nWould you like to order now?",
+                options: [
+                    { text: "Yes, order now!", action: "buy-office" },
+                    { text: "I have questions", action: "contact-whatsapp" }
+                ]
+            },
+            troubleshoot: {
+                message: "No problem! Let's figure this out together. 💪\n\nI'll try my best to help you fix it!\n\nWhat kind of problem are you having?",
+                options: [
+                    { text: "WiFi won't connect", action: "wifi" },
+                    { text: "Need to update Windows/Mac", action: "updates" },
+                    { text: "Need to update drivers", action: "drivers" },
+                    { text: "My computer is slow", action: "slow" },
+                    { text: "Something else", action: "contact-whatsapp" }
+                ]
+            },
+            wifi: {
+                message: "🔌 WiFi Troubleshooting:\n\n1️⃣ First, restart your computer AND your router (turn it off for 30 seconds, then back on)\n\n2️⃣ On Windows: Click the WiFi icon → Forget this network → Reconnect\n\n3️⃣ On Mac: System Settings → WiFi → Remove the network → Reconnect\n\nDid this help?",
+                options: [
+                    { text: "It worked! 🎉", action: "thanks" },
+                    { text: "Still not working", action: "contact-whatsapp" },
+                    { text: "I'm not sure how to do this", action: "contact-whatsapp" }
+                ]
+            },
+            updates: {
+                message: "🔄 How to update your computer:\n\n**On Windows:**\n1. Click the Start button\n2. Click Settings (⚙️)\n3. Click Windows Update\n4. Click Check for updates\n5. Install any updates found\n\n**On Mac:**\n1. Click the Apple menu (🍎)\n2. Click System Settings\n3. Click General → Software Update\n4. Install any updates found\n\nDid this help?",
+                options: [
+                    { text: "It worked! 🎉", action: "thanks" },
+                    { text: "I'm confused", action: "contact-whatsapp" },
+                    { text: "Still having issues", action: "contact-whatsapp" }
+                ]
+            },
+            drivers: {
+                message: "🔧 Updating Drivers (Don't worry, it's easier than it sounds!):\n\n**On Windows:**\n1. Right-click the Start button\n2. Click Device Manager\n3. Find the device you want to update (like Display or Network)\n4. Right-click it → Update driver\n5. Click Search automatically\n\n**Need help?** We can update your drivers remotely for R100!\n\nDid this help?",
+                options: [
+                    { text: "It worked! 🎉", action: "thanks" },
+                    { text: "This is too confusing", action: "contact-whatsapp" },
+                    { text: "I need remote help", action: "contact-whatsapp" }
+                ]
+            },
+            slow: {
+                message: "🐢 Let's speed up your computer:\n\n1️⃣ Restart your computer (seriously, this helps a lot!)\n\n2️⃣ Check what's running:\n   - Windows: Press Ctrl+Shift+Esc → End Task on things you don't need\n   - Mac: Click the Apple menu → Force Quit apps you don't need\n\n3️⃣ Delete files you don't need\n\n4️⃣ Run Windows Update or Software Update\n\nNeed more help? We offer a full speed-up service!",
+                options: [
+                    { text: "This helped, thanks!", action: "thanks" },
+                    { text: "Still slow, need more help", action: "contact-whatsapp" }
+                ]
+            },
+            quickhelp: {
+                message: "Sure! Let me share our current specials first:\n\n🎉 CURRENT SPECIALS:\n💻 Windows - R300 (R50 OFF!)\n🍎 macOS - R300 (R50 OFF!)\n📝 Office - R300 (R50 OFF!)\n⚡ Valid till 30 April 2026\n\nWhat would you like to know about?",
+                options: [
+                    { text: "What services do you offer?", action: "services-info" },
+                    { text: "How does pricing work?", action: "pricing-info" },
+                    { text: "Check my 30-day guarantee", action: "guarantee-check" },
+                    { text: "Where are you located?", action: "location-info" },
+                    { text: "I have a specific question", action: "contact-whatsapp" }
+                ]
+            },
+            "location-info": {
+                message: "📍 We're based in South Africa and serve clients nationwide!\n\n💬 WhatsApp us for directions:\n👉 065 354 7585\n\n🌐 Or find us on Google Maps:\nhttps://maps.app.goo.gl/gcb7cEZTwrRQCu9p8\n\nWe offer remote support across South Africa, and can assist you wherever you are!",
+                options: [
+                    { text: "Open Google Maps", action: "open-maps" },
+                    { text: "WhatsApp you", action: "contact-whatsapp" },
+                    { text: "Back to menu", action: "greeting" }
+                ]
+            },
+            "open-maps": {
+                message: "Opening Google Maps...",
+                action: "open-whatsapp",
+                actionUrl: "https://maps.app.goo.gl/gcb7cEZTwrRQCu9p8"
+            },
+            "guarantee-check": {
+                message: "🔍 Let me help you check your 30-day guarantee!\n\nPlease enter your invoice date in the format: DD.MM.YYYY\n\nFor example: 17.04.2026",
+                input: true,
+                inputType: "text",
+                inputPlaceholder: "DD.MM.YYYY (e.g. 17.04.2026)",
+                inputAction: "calculate-guarantee"
+            },
+            "services-info": {
+                message: "🛠️ ARD Tech Services:\n\n💻 Software Installation (Windows, Mac, Office)\n🔧 Hardware Repairs\n🌐 Website Development\n📧 Email & Hosting\n🔤 Domain Registration\n💼 Business IT Solutions\n\n🎉 CURRENT SPECIALS:\n💻 Windows, macOS & Office - R50 OFF each!\n⚡ Valid till 30 April 2026\n\nEverything comes with a 30-day guarantee!\n\nWhat would you like to know more about?",
+                options: [
+                    { text: "I want to buy something", action: "purchase" },
+                    { text: "I have a problem", action: "troubleshoot" }
+                ]
+            },
+            "pricing-info": {
+                message: "💰 Our Pricing:\n\n💻 Windows - R300 (R50 OFF! Was R350)\n🍎 macOS - R300 (R50 OFF! Was R350)\n📝 Microsoft Office - R300 (R50 OFF! Was R350)\n🌍 Websites - From R3,000\n🌍 Web Hosting - R150/month\n📧 Email Hosting - R150/month\n🔤 Domain Registration - R200/year\n\n⚡ Limited Offer: R50 OFF on Windows, macOS & Office!\nValid till 30 April 2026\n\n💡 Tip: Get Windows + Office together for R600!\n\n5+ devices? Ask about our bulk discount!",
+                options: [
+                    { text: "I want to order", action: "purchase" },
+                    { text: "Talk to a person", action: "contact-whatsapp" }
+                ]
+            },
+            thanks: {
+                message: "You're welcome! 😊 Is there anything else I can help you with today?",
+                options: [
+                    { text: "Yes, I need more help", action: "greeting" },
+                    { text: "No, that's all. Thanks!", action: "close" }
+                ]
+            },
+            "buy-bundle": {
+                message: "🎉 Awesome! Let's get your Complete Setup ordered!\n\nWindows + Office = R600\n\nI'll open the order form for you now!",
+                action: "open-modal-bundle"
+            },
+            "buy-windows": {
+                message: "Great choice! Windows 11 Pro - R300\n\nI'll open the order form for you now!",
+                action: "open-modal-windows"
+            },
+            "buy-macos": {
+                message: "Great choice! macOS Installation - R300\n\nI'll open the order form for you now!",
+                action: "open-modal-macos"
+            },
+            "buy-office": {
+                message: "Perfect! Microsoft Office - R300\n\nI'll open the order form for you now!",
+                action: "open-modal-office"
+            },
+            "buy-bulk": {
+                message: "I'll connect you with our team to discuss your bulk order! They can give you a custom quote for 5+ devices.",
+                action: "open-whatsapp-bulk"
+            },
+            "buy-web": {
+                message: "Let's build your website! I'll connect you with our web team to discuss your needs and get you started.",
+                action: "open-whatsapp-web"
+            },
+            "buy-hosting": {
+                message: "I can help you get hosting set up! I'll connect you with our team to find the best plan for your needs.",
+                action: "open-whatsapp-hosting"
+            },
+            "contact-whatsapp": {
+                message: "📱 Perfect choice! We're ready to help you on WhatsApp!",
+                action: "open-whatsapp"
+            },
+            close: {
+                message: "Thanks for chatting! Have a great day! 👋\n\nRemember: We're here whenever you need us. Just click the chat button anytime!",
+                action: "close-chat"
+            }
+        };
+
+        function openChatbot() {
+            const chatWindow = document.getElementById('chatbot-window');
+            const chatBtn = document.getElementById('chatbot-btn');
+            const messagesContainer = document.getElementById('chat-messages');
+            chatWindow.style.display = 'flex';
+            chatBtn.style.display = 'none';
+            messagesContainer.innerHTML = '';
+            messagesContainer.scrollTop = 0;
+            showBotMessage('greeting');
+            removeScreenshot();
+            setTimeout(() => {
+                messagesContainer.scrollTop = 0;
+            }, 100);
+        }
+
+        function closeChatbot() {
+            document.getElementById('chatbot-window').style.display = 'none';
+            document.getElementById('chatbot-btn').style.display = 'flex';
+            removeScreenshot();
+        }
+        
+        function resetChatbot() {
+            const messagesContainer = document.getElementById('chat-messages');
+            messagesContainer.innerHTML = '';
+            showBotMessage('greeting');
+        }
+        
+
+
+        function showBotMessage(key) {
+            const response = chatbotResponses[key];
+            if (!response) return;
+
+            const messagesContainer = document.getElementById('chat-messages');
+            
+            if (response.action && response.action.startsWith('open-modal')) {
+                const msgDiv = document.createElement('div');
+                msgDiv.className = 'chat-message bot-message';
+                msgDiv.innerHTML = `<p>${response.message.replace(/\n/g, '<br>')}</p>`;
+                messagesContainer.appendChild(msgDiv);
+                
+                setTimeout(() => {
+                    if (response.action === 'open-modal-windows') {
+                        openOrderModal('Windows Installation', 'R300 per device (R50 OFF!)');
+                    } else if (response.action === 'open-modal-macos') {
+                        openOrderModal('macOS / Bootcamp Installation', 'R300 per device (R50 OFF!)');
+                    } else if (response.action === 'open-modal-office') {
+                        openOrderModal('Microsoft Office Installation', 'R300 per user (R50 OFF!)');
+                    } else if (response.action === 'open-modal-bundle') {
+                        openOrderModal('Complete Setup (Windows + Office)', 'R600 (R50 OFF!)');
+                    }
+                }, 500);
+                
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                return;
+            }
+            
+            if (response.action && response.action.startsWith('open-whatsapp')) {
+                const msgDiv = document.createElement('div');
+                msgDiv.className = 'chat-message bot-message';
+                
+                let serviceMsg = response.message;
+                msgDiv.innerHTML = `<p>${serviceMsg.replace(/\n/g, '<br>')}</p>`;
+                messagesContainer.appendChild(msgDiv);
+                
+                setTimeout(() => {
+                    let whatsappUrl = 'https://wa.me/27653547585?text=';
+                    let text = 'Hi ARD Tech! ';
+                    
+                    if (response.action === 'open-whatsapp-bundle') {
+                        text += 'I want to order the Windows + Office Complete Setup (R600). ';
+                    } else if (response.action === 'open-whatsapp-windows') {
+                        text += 'I want to order Windows 11 Pro (R300). ';
+                    } else if (response.action === 'open-whatsapp-macos') {
+                        text += 'I want to order macOS / Bootcamp Installation (R300). ';
+                    } else if (response.action === 'open-whatsapp-office') {
+                        text += 'I want to order Microsoft Office (R300). ';
+                    } else if (response.action === 'open-whatsapp-bulk') {
+                        text += 'I want to order for 5+ devices. Can you give me a bulk quote? ';
+                    } else if (response.action === 'open-whatsapp-web') {
+                        text += 'I need a website. Can you help me get started? ';
+                    } else if (response.action === 'open-whatsapp-hosting') {
+                        text += 'I need web hosting. Can you help me choose a plan? ';
+                    } else if (lastSelectedService) {
+                        text = 'Hi ARD Tech! ' + lastSelectedService + ' ';
+                    }
+                    
+                    if (response.actionUrl) {
+                        window.open(response.actionUrl, '_blank');
+                    } else {
+                        text += 'I need some help with my computer. ';
+                    }
+                    
+                    text += 'I spoke with your chat assistant.';
+                    whatsappUrl += encodeURIComponent(text);
+                    window.open(whatsappUrl, '_blank');
+                }, 500);
+                
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                return;
+            }
+
+            if (response.action === 'close-chat') {
+                const msgDiv = document.createElement('div');
+                msgDiv.className = 'chat-message bot-message';
+                msgDiv.innerHTML = `<p>${response.message.replace(/\n/g, '<br>')}</p>`;
+                messagesContainer.appendChild(msgDiv);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                setTimeout(closeChatbot, 3000);
+                return;
+            }
+
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'chat-message bot-message';
+            msgDiv.innerHTML = `<p>${response.message.replace(/\n/g, '<br>')}</p>`;
+            messagesContainer.appendChild(msgDiv);
+
+            if (response.input) {
+                const inputDiv = document.createElement('div');
+                inputDiv.className = 'chat-input-area';
+                inputDiv.innerHTML = `
+                    <input type="text" id="guarantee-date-input" placeholder="DD.MM.YYYY" style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #333; background: #1a1a2e; color: white; margin-right: 8px;">
+                    <button class="chat-send-btn" onclick="calculateGuarantee()" style="padding: 10px 20px; background: #00a6e2; color: white; border: none; border-radius: 8px; cursor: pointer;">Check</button>
+                `;
+                messagesContainer.appendChild(inputDiv);
+            }
+
+            if (response.options) {
+                const optionsDiv = document.createElement('div');
+                optionsDiv.className = 'chat-options';
+                response.options.forEach((opt, index) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'chat-option-btn';
+                    btn.textContent = opt.text;
+                    btn.onclick = () => {
+                        const userMsg = document.createElement('div');
+                        userMsg.className = 'chat-message user-message';
+                        userMsg.innerHTML = `<p>${opt.text}</p>`;
+                        messagesContainer.appendChild(userMsg);
+                        messagesContainer.scrollTop = 0;
+                        showBotMessage(opt.action);
+                    };
+                    optionsDiv.appendChild(btn);
+                });
+                messagesContainer.appendChild(optionsDiv);
+            }
+
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+        
+        function calculateGuarantee() {
+            const input = document.getElementById('guarantee-date-input');
+            const dateStr = input.value;
+            const messagesContainer = document.getElementById('chat-messages');
+            
+            if (!dateStr) {
+                const errorMsg = document.createElement('div');
+                errorMsg.className = 'chat-message bot-message';
+                errorMsg.innerHTML = '<p>❌ Please select a date first!</p>';
+                messagesContainer.appendChild(errorMsg);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                return;
+            }
+            
+            const parts = dateStr.split('.');
+            if (parts.length === 3) {
+                const day = parseInt(parts[0]);
+                const month = parseInt(parts[1]);
+                const year = parseInt(parts[2]);
+                
+                if (year >= 2020 && year <= 2030 && month >= 1 && month <= 12 && day >= 1 && day <= 31) {
+                    const expiryDate = new Date(year, month - 1, day + 30);
+                    const expiryDay = String(expiryDate.getDate()).padStart(2, '0');
+                    const expiryMonth = String(expiryDate.getMonth() + 1).padStart(2, '0');
+                    const expiryYear = expiryDate.getFullYear();
+                    
+                    const displayDate = `${day.toString().padStart(2,'0')}/${month.toString().padStart(2,'0')}/${year}`;
+                    const expiryDisplay = `${expiryDay}/${expiryMonth}/${expiryYear}`;
+                    
+                    const userMsg = document.createElement('div');
+                    userMsg.className = 'chat-message user-message';
+                    userMsg.innerHTML = `<p>${displayDate}</p>`;
+                    messagesContainer.appendChild(userMsg);
+                    
+                    const botMsg = document.createElement('div');
+                    botMsg.className = 'chat-message bot-message';
+                    botMsg.innerHTML = `<p>✅ Your 30-day guarantee expires on:<br><br><strong style="color: #00a6e2;">${expiryDisplay}</strong><br><br>Please contact us before this date if you have any issues!</p>`;
+                    messagesContainer.appendChild(botMsg);
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                    return;
+                }
+            }
+            
+            const errorMsg = document.createElement('div');
+            errorMsg.className = 'chat-message bot-message';
+            errorMsg.innerHTML = '<p>❌ Please select a valid date</p>';
+            messagesContainer.appendChild(errorMsg);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        // Keyword-based responses for typed messages
+        const keywordResponses = {
+            wifi: {
+                keywords: ['wifi', 'wi-fi', 'wireless', 'internet', 'connection', 'connect', "can't connect", 'not connecting', 'no internet'],
+                response: "🔌 WiFi Issue? Here's the quick fix:\n\n1️⃣ Restart your router - unplug it for 30 seconds\n2️⃣ On your computer: Click WiFi icon → Forget this network\n3️⃣ Reconnect and enter password\n\nThat's it! If still not working, we can help remotely. Want us to take a look?"
+            },
+            slow: {
+                keywords: ['slow', 'laggy', 'freezing', 'hangs', 'stuck', 'loading', 'takes long'],
+                response: "🐢 Speed up your computer:\n\n1️⃣ Restart your computer first - this fixes most issues!\n2️⃣ Close apps you don't need (Ctrl+Shift+Esc on Windows)\n3️⃣ Delete files you don't use\n4️⃣ Run Windows Update or Mac Software Update\n\nStill slow? We can clean it up for you!"
+            },
+            update: {
+                keywords: ['update', 'updating', 'upgrade', 'how to update', 'windows update', 'mac update'],
+                response: "🔄 How to update:\n\n**Windows:** Start menu → Settings → Windows Update → Check for updates\n\n**Mac:** Apple menu → System Settings → General → Software Update\n\nDone! Simple as that. Need more help?"
+            },
+            virus: {
+                keywords: ['virus', 'malware', 'hacked', 'popup', 'spam', 'adware', 'infected'],
+                response: "⚠️ Virus or Popup issues:\n\n1️⃣ Don't click anything suspicious\n2️⃣ Run Windows Defender (Windows) or Malwarebytes\n3️⃣ Don't download anything new yet\n\nIf it's serious, we can scan and clean your computer remotely. Want help?"
+            },
+            password: {
+                keywords: ['password', 'forgot', 'locked', "can't login", 'sign in', 'account'],
+                response: "🔐 Password help:\n\n1️⃣ Use 'Forgot Password' on the login screen\n2️⃣ Check your email for reset link\n3️⃣ Make sure Caps Lock is off\n\nNeed account recovery help? Contact our team!"
+            },
+            blue: {
+                keywords: ['blue screen', 'bsod', 'blue', 'crash', 'crashes', 'restarts'],
+                response: "🔵 Blue Screen? Here's what to do:\n\n1️⃣ Write down the error code (the white text)\n2️⃣ Restart your computer\n3️⃣ If it keeps happening, it's usually a driver issue\n\nTake a screenshot and send it to us - we can help diagnose!"
+            },
+            audio: {
+                keywords: ['sound', 'audio', 'speaker', 'microphone', 'no sound', "can't hear"],
+                response: "🔊 Sound not working?\n\n1️⃣ Check if speakers are muted (bottom right corner)\n2️⃣ Make sure the right device is selected\n3️⃣ Try restarting your computer\n\nStill no sound? We can help troubleshoot!"
+            },
+            printer: {
+                keywords: ['printer', 'printing', 'print', 'paper jam'],
+                response: "🖨️ Printer problems:\n\n1️⃣ Make sure it's turned on and connected\n2️⃣ Check for paper jams\n3️⃣ Go to Settings → Devices → Printers → Right-click your printer → Troubleshoot\n\nNeed hands-on help? We're here!"
+            },
+            email: {
+                keywords: ['email', 'outlook', 'gmail', "can't send", 'inbox', 'mail'],
+                response: "📧 Email help:\n\n1️⃣ Check your internet connection\n2️⃣ Make sure password is correct\n3️⃣ Try clearing browser cache\n\nNeed email setup or migration help? We offer that service!"
+            },
+            windows: {
+                keywords: ['windows', 'windows 10', 'windows 11', 'install windows', 'reinstall'],
+                response: "💻 Need help with Windows?\n\nI can help you with:\n• Windows 10/11 problems\n• Installation questions\n• Updates and settings\n• Driver issues\n\nIf you need Windows installed, we offer that service too! But first, let me help with your current issue - what do you need?"
+            },
+            office: {
+                keywords: ['office', 'word', 'excel', 'powerpoint', 'microsoft office'],
+                response: "📝 Need help with Office?\n\nI can help you with:\n• Word, Excel, PowerPoint issues\n• Installation problems\n• Activation errors\n• General Office questions\n\nIf you need Office installed, we offer that service! But let me help with your current issue first - what's going on?"
+            },
+            hello: {
+                keywords: ['hello', 'hi', 'hey', 'good morning', 'good afternoon', 'good evening'],
+                response: "Hey! 👋 Welcome to ARD Tech! How can I help you today?\n\nI'm here to help EVERYONE - whether you need:\n• Computer help\n• Troubleshooting\n• To buy our services\n• Or just have questions\n\nWhat can I help you with?"
+            },
+            thanks: {
+                keywords: ['thanks', 'thank you', 'thx', 'appreciate'],
+                response: "You're welcome! 😊 Happy to help!\n\nCome back anytime if you need more help - we're here for everyone, not just customers!"
+            },
+            screenshot: {
+                keywords: ['screenshot', 'screen shot', 'screen capture', 'picture', 'image'],
+                response: "📸 To send a screenshot:\n\n1️⃣ Press Windows key + Shift + S (Windows)\n2️⃣ Press Cmd + Shift + 4 (Mac)\n3️⃣ Then paste it here or click the camera icon\n\nNote: For the best help with your issue, send screenshots directly via WhatsApp at 065 354 7585 - it's faster!"
+            }
+        };
+
+        function handleChatInput(event) {
+            if (event.key === 'Enter') {
+                sendUserMessage();
+            }
+        }
+
+        let lastOptions = null;
+        let lastSelectedService = '';
+        
+        function sendUserMessage() {
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim();
+            if (!message && !uploadedScreenshot) return;
+
+            const messagesContainer = document.getElementById('chat-messages');
+            
+            // Check if message is a number and matches an option
+            const num = parseInt(message);
+            if (lastOptions && num >= 1 && num <= lastOptions.length) {
+                const selectedOpt = lastOptions[num - 1];
+                const userMsg = document.createElement('div');
+                userMsg.className = 'chat-message user-message';
+                userMsg.innerHTML = `<p>${num}. ${selectedOpt.text}</p>`;
+                messagesContainer.appendChild(userMsg);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                lastOptions = null;
+                lastSelectedService = opt.text;
+                showBotMessage(selectedOpt.action);
+                return;
+            }
+
+            // Create user message container
+            const userMsgWrapper = document.createElement('div');
+            userMsgWrapper.className = 'chat-message user-message';
+
+            // Add image if attached
+            if (uploadedScreenshot) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imgHtml = `<img src="${e.target.result}" alt="Screenshot" class="chat-image" onclick="openImageLightbox(this.src)">`;
+                    if (message) {
+                        userMsgWrapper.innerHTML = imgHtml + `<p>${escapeHtml(message)}</p>`;
+                    } else {
+                        userMsgWrapper.innerHTML = imgHtml + `<p>📸 Screenshot attached</p>`;
+                    }
+                };
+                reader.readAsDataURL(uploadedScreenshot);
+            } else {
+                userMsgWrapper.innerHTML = `<p>${escapeHtml(message)}</p>`;
+            }
+
+            messagesContainer.appendChild(userMsgWrapper);
+
+            // Clear input and screenshot
+            input.value = '';
+            document.getElementById('screenshot-preview').style.display = 'none';
+            document.getElementById('screenshot-upload').value = '';
+
+            // Scroll to bottom
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            // Show typing indicator
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'chat-typing';
+            typingDiv.innerHTML = '<span></span><span></span><span></span>';
+            messagesContainer.appendChild(typingDiv);
+
+            setTimeout(() => {
+                typingDiv.remove();
+                const response = getKeywordResponse(message);
+                const botMsg = document.createElement('div');
+                botMsg.className = 'chat-message bot-message';
+                botMsg.innerHTML = `<p>${response.replace(/\n/g, '<br>')}</p>`;
+                messagesContainer.appendChild(botMsg);
+
+                const backBtn = document.createElement('button');
+                backBtn.className = 'chat-option-btn';
+                backBtn.textContent = '← Back to Menu';
+                backBtn.onclick = () => {
+                    const menuMsg = document.createElement('div');
+                    menuMsg.className = 'chat-message bot-message';
+                    menuMsg.innerHTML = `<p>Here's the menu again:</p>`;
+                    messagesContainer.appendChild(menuMsg);
+                    showBotMessage('greeting');
+                };
+                messagesContainer.appendChild(backBtn);
+
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }, 800);
+        }
+
+        function getKeywordResponse(message) {
+            const lowerMsg = message.toLowerCase();
+
+            for (const [key, data] of Object.entries(keywordResponses)) {
+                for (const keyword of data.keywords) {
+                    if (lowerMsg.includes(keyword)) {
+                        return data.response;
+                    }
+                }
+            }
+
+            if (uploadedScreenshot) {
+                return "I see you attached a screenshot! 📸\n\nTo help you better:\n1️⃣ Tell me what the problem is\n2️⃣ What were you trying to do?\n3️⃣ Did you get any error message?\n\nFor the fastest help with screenshots, WhatsApp us at 065 354 7585 - our team can view it directly!";
+            }
+
+            if (!message && uploadedScreenshot) {
+                return "Got your screenshot! 📸 Tell me what the problem is so I can help you better.\n\nFor instant help with screenshots, WhatsApp us at 065 354 7585!";
+            }
+
+            return "I understand you need help! 😊 Here's what I can do:\n\n• Tell me what product you want to buy\n• Describe your computer problem\n• Ask how to do something\n\nFor the fastest help, WhatsApp us at 065 354 7585 - we respond quickly!";
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function handleScreenshot(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            uploadedScreenshot = file;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('preview-image').src = e.target.result;
+                document.getElementById('screenshot-preview').style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function handlePaste(event) {
+            const items = event.clipboardData.items;
+            for (let i = 0; i < items.length; i++) {
+                if (items[i].type.indexOf('image') !== -1) {
+                    event.preventDefault();
+                    const file = items[i].getAsFile();
+                    if (file) {
+                        uploadedScreenshot = file;
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            document.getElementById('preview-image').src = e.target.result;
+                            document.getElementById('screenshot-preview').style.display = 'block';
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                    break;
+                }
+            }
+        }
+
+        function removeScreenshot() {
+            uploadedScreenshot = null;
+            document.getElementById('screenshot-preview').style.display = 'none';
+            document.getElementById('screenshot-upload').value = '';
+        }
+
+        // Open image in lightbox when clicked
+        function openImageLightbox(src) {
+            const lightbox = document.createElement('div');
+            lightbox.className = 'image-lightbox';
+            lightbox.innerHTML = `<img src="${src}" alt="Full size"><button onclick="this.parentElement.remove()">✕</button>`;
+            lightbox.onclick = (e) => { if (e.target === lightbox) lightbox.remove(); };
+            document.body.appendChild(lightbox);
+        }
+
+        function submitContactForm(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('contact-name').value;
+            const email = document.getElementById('contact-email').value;
+            const phone = document.getElementById('contact-phone').value;
+            const service = document.getElementById('contact-service').value;
+            const message = document.getElementById('contact-message').value;
+            
+            let whatsappText = `*New Contact - ARD Tech*\n\n`;
+            whatsappText += `*Name:* ${name}\n`;
+            whatsappText += `*Email:* ${email}\n`;
+            whatsappText += `*Phone:* ${phone}\n`;
+            whatsappText += `*Service:* ${service}\n`;
+            whatsappText += `*Message:* ${message}`;
+            
+            const encodedMessage = encodeURIComponent(whatsappText);
+            window.open(`https://wa.me/27653547585?text=${encodedMessage}`, '_blank');
+        }
+    </script>
+
+<!-- Chatbot -->
+    <div id="chatbot-btn" class="chatbot-btn bounce-in" onclick="openChatbot()">
+        <div class="robot-container">
+            <div class="robot-body">
+                <div class="robot-face">
+                    <div class="robot-eye left"></div>
+                    <div class="robot-eye right"></div>
+                    <div class="robot-mouth"></div>
+                </div>
+                <div class="robot-antenna">
+                    <div class="antenna-ball"></div>
+                </div>
+            </div>
+            <div class="robot-shadow"></div>
+        </div>
+        <div class="notification-dot"></div>
+        <span class="chatbot-tooltip">Chat with Archie!</span>
+    </div>
+
+    <div id="chatbot-window" class="chatbot-window" style="display: none;">
+        <div class="chatbot-header">
+            <div class="chatbot-header-info">
+                <img src="ARCHIE.png" alt="Archie" style="width: 40px; height: 40px; border-radius: 50%;">
+                <div>
+                    <h4>Archie</h4>
+                    <span>We're here to help!</span>
+                </div>
+            </div>
+            <div style="display: flex; gap: 8px;">
+                <button class="chatbot-refresh" onclick="resetChatbot()" title="New Conversation">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M23 4v6h-6"></path>
+                        <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+                    </svg>
+                </button>
+                <button class="chatbot-close" onclick="closeChatbot()" title="Close">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="chatbot-messages" id="chat-messages">
+        </div>
+        <div class="chatbot-input-area">
+            <div class="screenshot-preview" id="screenshot-preview" style="display: none;">
+                <img id="preview-image" src="" alt="Screenshot preview">
+                <button class="remove-screenshot" onclick="removeScreenshot()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <label class="screenshot-btn" for="screenshot-upload" title="Attach screenshot">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                    <polyline points="21 15 16 10 5 21"></polyline>
+                </svg>
+            </label>
+            <input type="file" id="screenshot-upload" accept="image/*" style="display: none;" onchange="handleScreenshot(event)">
+            <input type="text" id="chat-input" placeholder="Type your message or paste a screenshot..." onkeypress="handleChatInput(event)" onpaste="handlePaste(event)">
+            <button class="chat-send-btn" onclick="sendUserMessage()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Order Modal -->
+    <div id="orderModal" class="order-modal" style="display: none;">
+        <div class="order-modal-content">
+            <div class="order-modal-header">
+                <h3>Complete Your Order</h3>
+                <button class="order-modal-close" onclick="closeOrderModal()">&times;</button>
+            </div>
+            <div class="order-modal-body">
+                <div class="order-service-info">
+                    <h4 id="orderServiceName">Service Name</h4>
+                    <p id="orderServicePrice">R0</p>
+                </div>
+                <div style="background: rgba(255, 71, 87, 0.1); border: 1px solid #ff4757; padding: 12px; border-radius: 8px; margin-bottom: 15px; text-align: center;">
+                    <p style="color: #ff4757; font-size: 14px; margin: 0;">🚫 No Payment on Website</p>
+                    <p style="color: #aaa; font-size: 12px; margin: 5px 0 0 0;">Payment details sent via WhatsApp</p>
+                </div>
+                <div class="order-form">
+                    <div class="order-form-group">
+                        <label for="orderName">Full Name</label>
+                        <input type="text" id="orderName" placeholder="Your name" required>
+                    </div>
+                    <div class="order-form-group">
+                        <label for="orderEmail">Email Address</label>
+                        <input type="email" id="orderEmail" placeholder="your@email.com" required>
+                    </div>
+                    <div class="order-form-group">
+                        <label for="orderPhone">Phone / WhatsApp</label>
+                        <input type="tel" id="orderPhone" placeholder="065 354 7585" required>
+                    </div>
+                    <div class="order-form-group" id="budgetGroup" style="display: none;">
+                        <label for="orderBudget">Budget Range (Website Development)</label>
+                        <select id="orderBudget">
+                            <option value="">Select your budget</option>
+                            <option value="R3000">R3,000</option>
+                            <option value="R5000">R5,000</option>
+                            <option value="R10000">R10,000</option>
+                            <option value=" quote">Request a Quote</option>
+                        </select>
+                    </div>
+                    <div class="order-form-group" id="hardwareGroup" style="display: none;">
+                        <label for="orderHardware">Computer / Laptop Hardware Details</label>
+                        <textarea id="orderHardware" rows="3" placeholder="Describe the hardware issue (e.g., screen, battery, keyboard, charging port, etc.)"></textarea>
+                    </div>
+                    <div class="order-terms-checkbox">
+                        <input type="checkbox" id="orderTerms" required>
+                        <label for="orderTerms">I agree to the <a href="terms.html" target="_blank">Terms and Conditions</a>, including payment and data policies.</label>
+                    </div>
+                    <button class="order-submit-btn" onclick="submitOrder()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                        Confirm & Send via WhatsApp
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentOrder = { service: '', price: '' };
+        let currentTestimonialPage = 0;
+        
+        // Initialize first testimonial as active
+        const track = document.getElementById('testimonialsTrack');
+        if (track) {
+            const cards = track.querySelectorAll('.testimonial-card');
+            if (cards.length > 0) {
+                cards[0].classList.add('active');
+            }
+        }
+        
+        // Auto-rotate testimonials every 5 seconds (starts after initialization)
+        setInterval(() => {
+            scrollTestimonials(1);
+        }, 5000);
+        
+        // Special Offer Banner - Dismiss and auto-hide on scroll
+        const specialOfferBanner = document.getElementById('specialOffer');
+        
+        function dismissOffer() {
+            if (specialOfferBanner) {
+                specialOfferBanner.style.display = 'none';
+            }
+        }
+        
+// Auto-hide banner on scroll
+        let lastScrollY = 0;
+        window.addEventListener('scroll', function() {
+            const currentScrollY = window.pageYOffset;
+            if (specialOfferBanner && currentScrollY > lastScrollY && currentScrollY > 100) {
+                specialOfferBanner.style.display = 'none';
+            }
+            lastScrollY = currentScrollY;
+            
+            // Trigger scroll reveal animations
+            revealOnScroll();
+        });
+        
+        // Scroll reveal function
+        function revealOnScroll() {
+            const elements = document.querySelectorAll('.service-card, .pricing-card, .testimonial-card, .faq-item');
+            elements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                const windowHeight = window.innerHeight;
+                if (rect.top < windowHeight - 100) {
+                    el.classList.add('visible');
+                }
+            });
+        }
+        
+        // Initialize on page load
+        setTimeout(revealOnScroll, 100);
+        
+        function scrollTestimonials(direction) {
+            const track = document.getElementById('testimonialsTrack');
+            const cards = track.querySelectorAll('.testimonial-card');
+            if (!cards.length) return;
+            
+            const maxIndex = cards.length - 1;
+            
+            // Remove active classes from all cards
+            cards.forEach(card => {
+                card.classList.remove('active', 'prev');
+            });
+            
+            // Determine new page
+            let newPage = currentTestimonialPage;
+            if (direction > 0) {
+                newPage = currentTestimonialPage >= maxIndex ? 0 : currentTestimonialPage + 1;
+            } else {
+                newPage = currentTestimonialPage <= 0 ? maxIndex : currentTestimonialPage - 1;
+            }
+            
+            // Mark current as prev, new as active
+            cards[currentTestimonialPage].classList.add('prev');
+            currentTestimonialPage = newPage;
+            cards[currentTestimonialPage].classList.add('active');
+        }
+
+        function openOrderModal(service, price) {
+            currentOrder.service = service;
+            currentOrder.price = price;
+            document.getElementById('orderServiceName').textContent = service;
+            document.getElementById('orderServicePrice').textContent = price;
+            
+            const budgetGroup = document.getElementById('budgetGroup');
+            const budgetSelect = document.getElementById('orderBudget');
+            const hardwareGroup = document.getElementById('hardwareGroup');
+            const hardwareField = document.getElementById('orderHardware');
+            
+            if (service.toLowerCase().includes('website')) {
+                budgetGroup.style.display = 'block';
+                budgetSelect.required = true;
+                // Update price display based on selected budget
+                budgetSelect.onchange = function() {
+                    if (this.value === 'R3000') {
+                        document.getElementById('orderServicePrice').textContent = 'R3,000 once-off + R400/month';
+                    } else if (this.value === 'R5000') {
+                        document.getElementById('orderServicePrice').textContent = 'R5,000 once-off + R400/month';
+                    } else if (this.value === 'R10000') {
+                        document.getElementById('orderServicePrice').textContent = 'R10,000 once-off + R400/month';
+                    } else {
+                        document.getElementById('orderServicePrice').textContent = 'Quote on request';
+                    }
+                };
+            } else {
+                budgetGroup.style.display = 'none';
+                budgetSelect.required = false;
+            }
+            
+            if (service.toLowerCase().includes('hardware') || service.toLowerCase().includes('repair')) {
+                hardwareGroup.style.display = 'block';
+                hardwareField.required = true;
+            } else {
+                hardwareGroup.style.display = 'none';
+                hardwareField.required = false;
+                budgetSelect.value = '';
+            }
+            
+            document.getElementById('orderModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeOrderModal() {
+            document.getElementById('orderModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+            document.getElementById('orderTerms').checked = false;
+        }
+
+        function generateInvoiceNumber() {
+            const chars = '0123456789';
+            let invoice = 'ARDTECH-';
+            for (let i = 0; i < 6; i++) {
+                invoice += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return invoice;
+        }
+
+        function submitOrder() {
+            const name = document.getElementById('orderName').value;
+            const email = document.getElementById('orderEmail').value;
+            const phone = document.getElementById('orderPhone').value;
+            const budget = document.getElementById('orderBudget').value;
+            const hardware = document.getElementById('orderHardware').value;
+            const terms = document.getElementById('orderTerms').checked;
+
+            const isWebsite = currentOrder.service.toLowerCase().includes('website');
+            const isHardware = currentOrder.service.toLowerCase().includes('hardware') || currentOrder.service.toLowerCase().includes('repair');
+            
+            if (!name || !email || !phone) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            if (isWebsite && !budget) {
+                alert('Please select a budget range');
+                return;
+            }
+            
+            if (isHardware && !hardware) {
+                alert('Please describe the hardware you need repaired');
+                return;
+            }
+
+            if (!terms) {
+                alert('Please agree to the Terms and Conditions');
+                return;
+            }
+
+            const invoiceNumber = generateInvoiceNumber();
+            const date = new Date().toLocaleDateString('en-ZA');
+
+            // Build invoice URL with parameters
+            let hardwareInfo = '';
+            if (hardware) {
+                hardwareInfo = `\n*Hardware Details:* ${hardware}`;
+            }
+            
+            const displayedPrice = document.getElementById('orderServicePrice').textContent;
+            const invoiceUrl = `invoice.html?inv=${encodeURIComponent(invoiceNumber)}&date=${encodeURIComponent(date)}&name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&phone=${encodeURIComponent(phone)}&service=${encodeURIComponent(currentOrder.service)}&price=${encodeURIComponent(displayedPrice)}&hardware=${encodeURIComponent(hardware)}`;
+
+            // Send email notification to ARD Tech
+            fetch('send-invoice.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    invoice: invoiceNumber,
+                    date: date,
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    service: currentOrder.service,
+                    price: currentOrder.price
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (!data.success) {
+                    console.log('Email notification: ' + data.error);
+                }
+            })
+            .catch(err => console.log('Email error:', err));
+
+            // Open invoice in new tab
+            window.open(invoiceUrl, '_blank');
+
+            closeOrderModal();
+        }
+
+        function requestQuote(service, price) {
+            openOrderModal(service, price);
+        }
+        
+        if (window.location.search.includes('order=')) {
+            const params = new URLSearchParams(window.location.search);
+            const service = params.get('order');
+            const price = params.get('price');
+            if (service && price) {
+                setTimeout(() => {
+                    openOrderModal(service, price);
+                    const modal = document.getElementById('orderModal');
+                    if (modal) modal.style.display = 'flex';
+                }, 500);
+            }
+        }
+    </script>
+</body>
+</html>

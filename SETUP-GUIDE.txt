@@ -1,0 +1,159 @@
+# ARD Tech Website - Setup Guide
+
+## Quick Start
+
+### Files Included:
+1. **index.html** - Main website (with Archie AI chatbot)
+2. **style.css** - Website styles
+3. **terms.html** - Terms and Conditions
+4. **archie.html** - Archie's dedicated page
+5. **whatsapp-webhook.php** - WhatsApp API integration
+6. **archie-ai.php** - Groq AI backend for Archie
+7. **GROQ-SETUP.txt** - Archie AI setup instructions
+
+---
+
+## Step 1: Set Up Free Hosting
+
+### InfinityFree (Recommended - Supports PHP)
+1. Go to: https://www.infinityfree.com/
+2. Click "Sign Up"
+3. Enter your email: **support.ardtech@gmail.com**
+4. Create password
+5. Check email and verify account
+
+### Create Your Website:
+1. Log in to InfinityFree
+2. Click "Create Account" 
+3. Select subdomain (e.g., **ardtech.42web.io**)
+4. Click "Create"
+
+---
+
+## Step 2: Upload Your Website
+
+### Using FileZilla (Free FTP Client):
+1. Download FileZilla: https://filezilla-project.org/
+2. Open FileZilla
+3. Go to Site Manager → New Site
+4. Settings:
+   - Host: ftpupload.net
+   - Protocol: FTP
+   - Username: (check InfinityFree email)
+   - Password: (your password)
+5. Connect
+6. Navigate to **htdocs** folder
+7. Upload ALL files from this folder
+
+---
+
+## Step 3: Set Up WhatsApp Cloud API (FREE)
+
+### Create Meta Developer Account:
+1. Go to: https://developers.facebook.com/
+2. Click "Create App"
+3. Select **Business** as app type
+4. Name: **ARD Tech**
+5. Click "Create App"
+
+### Add WhatsApp Product:
+1. In your app dashboard, click "Add Products"
+2. Find "WhatsApp" → Click "Set up"
+3. Select or create a Business Manager account
+4. Follow the prompts
+
+### Get Your Credentials:
+1. Go to **WhatsApp** → **API Setup**
+2. Copy these values:
+   - **Phone Number ID**
+   - **Temporary Access Token**
+
+### Configure the Webhook:
+1. Open **whatsapp-webhook.php** in a text editor
+2. Replace these values:
+```php
+$CONFIG = [
+    'PHONE_NUMBER_ID' => 'YOUR_PHONE_NUMBER_ID',  // e.g., '123456789'
+    'ACCESS_TOKEN' => 'YOUR_ACCESS_TOKEN',          // Long string from Meta
+    'VERIFY_TOKEN' => 'ardtech2024securetoken',    // Keep this
+    'ADMIN_PHONE' => '27653547585',               // Your WhatsApp
+    'BUSINESS_NAME' => 'ARD Tech'
+];
+```
+
+3. Save the file
+4. Upload the updated file to your hosting
+
+### Configure Webhook in Meta:
+1. In WhatsApp API Setup, click "Edit"
+2. Enter:
+   - **Callback URL**: https://yourdomain.com/whatsapp-webhook.php
+   - **Verify Token**: ardtech2024securetoken
+3. Click "Verify and Save"
+4. Under "Webhooks", click "Manage"
+5. Subscribe to: **messages**
+
+---
+
+## Step 4: Test Your Setup
+
+1. Open your website: **yourdomain.com**
+2. Click the robot chat button
+3. Send a message or attach a screenshot
+4. Check your WhatsApp - you should receive it!
+
+---
+
+## Step 5: Buy Your Domain
+
+Once you're earning from the website:
+
+### Recommended Registrars:
+- **Namecheap.com** - .com from R150/year
+- **Domains.co.za** - .co.za from R99/year
+- **Afrihost.com** - .co.za from R99/year
+
+### Connect Your Domain:
+1. In InfinityFree, go to "Custom Domains"
+2. Enter your new domain
+3. Update DNS settings at your registrar:
+   - Add CNAME record pointing to your InfinityFree URL
+   - Or use A record IP provided by InfinityFree
+
+---
+
+## Need Help?
+
+WhatsApp: **065 354 7585**
+Email: **support.ardtech@gmail.com**
+
+---
+
+## Features Included:
+
+### Website:
+- Dark tech theme with cyan accents (#00a6e2)
+- Animated robot chatbot
+- Screenshot upload in chat
+- WhatsApp integration
+- Contact form
+- Terms and Conditions page
+- Homework & Math help menus
+- Student-friendly responses
+
+### Chatbot:
+- Purchase guidance (Windows, Office, Bundle)
+- Troubleshooting help (WiFi, updates, drivers)
+- Homework & Math help for students
+- Keyword detection
+- Screenshot support
+- WhatsApp redirect for orders
+
+### AI Setup (Optional):
+- See AI-SETUP folder for Ollama/Groq integration
+- AI files kept separate - use when ready
+
+---
+
+Last Updated: April 2026
+Version: 3.0
