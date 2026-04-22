@@ -40,7 +40,7 @@ A modern, responsive website for ARD Tech - offering computer repairs, software 
 
 ## Getting Started
 
-1. VISIT https://ARDTECH.PAGES.GD
+1. VISIT https://ARDTECH.PAGE.GD
    
 
 
